@@ -2,17 +2,19 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/core/consts/navigation.dart';
+import 'package:grocery_app/core/services/global_methods.dart';
+import 'package:grocery_app/screens/admin/home/nav_bar.dart';
 import 'package:grocery_app/screens/auth/forget_pass.dart';
 import 'package:grocery_app/screens/auth/register.dart';
 import 'package:grocery_app/screens/loading_manager.dart';
-import 'package:grocery_app/services/global_methods.dart';
 
-import '../../consts/contss.dart';
-import '../../consts/firebase_consts.dart';
+import '../../core/consts/contss.dart';
+import '../../core/consts/firebase_consts.dart';
+import '../../core/widgets/auth_button.dart';
+import '../../core/widgets/google_button.dart';
+import '../../core/widgets/text_widget.dart';
 import '../../fetch_screen.dart';
-import '../../widgets/auth_button.dart';
-import '../../widgets/google_button.dart';
-import '../../widgets/text_widget.dart';
 
 class LoginScreen extends StatefulWidget {
   static const routeName = '/LoginScreen';
@@ -47,15 +49,17 @@ class _LoginScreenState extends State<LoginScreen> {
         _isLoading = true;
       });
       try {
-        await authInstance.signInWithEmailAndPassword(
-            email: _emailTextController.text.toLowerCase().trim(),
-            password: _passTextController.text.trim());
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (context) => const FetchScreen(),
-          ),
-        );
-        print('Succefully logged in');
+        await authInstance
+            .signInWithEmailAndPassword(
+                email: _emailTextController.text.toLowerCase().trim(),
+                password: _passTextController.text.trim())
+            .then((value) {
+          if (value.user?.photoURL == '1') {
+            navigateAndRemoveUntil(context, const AdminNavBarView());
+          } else {
+            navigateAndRemoveUntil(context, const FetchScreen());
+          }
+        });
       } on FirebaseException catch (error) {
         GlobalMethods.errorDialog(
             subtitle: '${error.message}', context: context);

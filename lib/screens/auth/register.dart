@@ -7,13 +7,13 @@ import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/screens/auth/login.dart';
 import 'package:grocery_app/screens/loading_manager.dart';
 
-import '../../consts/contss.dart';
-import '../../consts/firebase_consts.dart';
+import '../../core/consts/contss.dart';
+import '../../core/consts/firebase_consts.dart';
+import '../../core/services/global_methods.dart';
+import '../../core/services/utils.dart';
+import '../../core/widgets/auth_button.dart';
+import '../../core/widgets/text_widget.dart';
 import '../../fetch_screen.dart';
-import '../../services/global_methods.dart';
-import '../../services/utils.dart';
-import '../../widgets/auth_button.dart';
-import '../../widgets/text_widget.dart';
 import 'forget_pass.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -64,6 +64,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         final User? user = authInstance.currentUser;
         final uid = user!.uid;
         user.updateDisplayName(_fullNameController.text);
+        user.updatePhotoURL('0');
         user.reload();
         await FirebaseFirestore.instance.collection('users').doc(uid).set({
           'id': uid,

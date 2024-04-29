@@ -4,17 +4,17 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:grocery_app/widgets/heart_btn.dart';
+import 'package:grocery_app/core/widgets/heart_btn.dart';
 import 'package:provider/provider.dart';
 
-import '../consts/firebase_consts.dart';
+import '../core/consts/firebase_consts.dart';
 import '../providers/cart_provider.dart';
 import '../providers/products_provider.dart';
 import '../providers/viewed_prod_provider.dart';
 import '../providers/wishlist_provider.dart';
-import '../services/global_methods.dart';
-import '../services/utils.dart';
-import '../widgets/text_widget.dart';
+import '../core/services/global_methods.dart';
+import '../core/services/utils.dart';
+import '../core/widgets/text_widget.dart';
 
 class ProductDetails extends StatefulWidget {
   static const routeName = '/ProductDetails';

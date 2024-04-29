@@ -3,11 +3,11 @@ import 'package:grocery_app/models/products_model.dart';
 import 'package:grocery_app/providers/products_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../services/utils.dart';
-import '../widgets/back_widget.dart';
-import '../widgets/empty_products_widget.dart';
-import '../widgets/feed_items.dart';
-import '../widgets/text_widget.dart';
+import '../core/services/utils.dart';
+import '../core/widgets/back_widget.dart';
+import '../core/widgets/empty_products_widget.dart';
+import '../core/widgets/feed_items.dart';
+import '../core/widgets/text_widget.dart';
 
 class CategoryScreen extends StatefulWidget {
   static const routeName = "/CategoryScreenState";

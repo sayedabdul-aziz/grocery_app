@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:grocery_app/consts/firebase_consts.dart';
+import 'package:grocery_app/core/consts/firebase_consts.dart';
 import 'package:grocery_app/models/cart_model.dart';
 
 class CartProvider with ChangeNotifier {
-  Map<String, CartModel> _cartItems = {};
+  final Map<String, CartModel> _cartItems = {};
 
   Map<String, CartModel> get getCartItems {
     return _cartItems;
@@ -30,9 +30,6 @@ class CartProvider with ChangeNotifier {
   Future<void> fetchCart() async {
     final User? user = authInstance.currentUser;
     final DocumentSnapshot userDoc = await userCollection.doc(user!.uid).get();
-    if (userDoc == null) {
-      return;
-    }
     final leng = userDoc.get('userCart').length;
     for (int i = 0; i < leng; i++) {
       _cartItems.putIfAbsent(

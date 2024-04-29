@@ -3,15 +3,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:grocery_app/consts/firebase_consts.dart';
+import 'package:grocery_app/core/consts/firebase_consts.dart';
 import 'package:grocery_app/screens/loading_manager.dart';
-import 'package:grocery_app/services/global_methods.dart';
-import 'package:grocery_app/services/utils.dart';
-import 'package:grocery_app/widgets/back_widget.dart';
+import 'package:grocery_app/core/services/global_methods.dart';
+import 'package:grocery_app/core/services/utils.dart';
+import 'package:grocery_app/core/widgets/back_widget.dart';
 
-import '../../consts/contss.dart';
-import '../../widgets/auth_button.dart';
-import '../../widgets/text_widget.dart';
+import '../../core/consts/contss.dart';
+import '../../core/widgets/auth_button.dart';
+import '../../core/widgets/text_widget.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const routeName = '/ForgetPasswordScreen';
