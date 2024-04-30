@@ -13,7 +13,7 @@ import 'package:image_picker/image_picker.dart';
 class AddProductView extends StatefulWidget {
   const AddProductView({super.key, this.model});
 
-  final ProductModel? model;
+  final ProductsModel? model;
 
   @override
   _AddProductViewScreenState createState() => _AddProductViewScreenState();
@@ -81,19 +81,21 @@ class _AddProductViewScreenState extends State<AddProductView> {
           onTap: () {
             if (formKey.currentState!.validate() && coverUrl != null) {
               formKey.currentState!.save();
-              var id = DateTime.now().toString();
-              FirebaseFirestore.instance.collection("restaurents").doc(id).set(
-                  ProductsModel(
-                          id: id,
-                          title: _nameController.text,
-                          imageUrl: coverUrl.toString(),
-                          productCategoryName: category,
-                          price: double.parse(_price.text),
-                          salePrice: double.parse(salePrice.text),
-                          isOnSale: isSale,
-                          isPiece: isPiece)
-                      .toJson(),
-                  SetOptions(merge: true));
+              FirebaseFirestore.instance
+                  .collection("products")
+                  .doc(_nameController.text)
+                  .set(
+                      ProductsModel(
+                              id: _nameController.text,
+                              title: _nameController.text,
+                              imageUrl: coverUrl.toString(),
+                              productCategoryName: category,
+                              price: double.parse(_price.text),
+                              salePrice: double.parse(salePrice.text),
+                              isOnSale: isSale,
+                              isPiece: isPiece)
+                          .toJson(),
+                      SetOptions(merge: true));
               Navigator.of(context).pop();
             }
           },

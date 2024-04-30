@@ -7,20 +7,15 @@ import 'package:grocery_app/core/widgets/custom_button.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
 import 'package:grocery_app/models/products_model.dart';
 import 'package:grocery_app/screens/admin/home/add_product.dart';
-import 'package:provider/provider.dart';
 
-class Productitem extends StatefulWidget {
-  const Productitem({super.key});
+class Productitem extends StatelessWidget {
+  final ProductsModel productModel;
 
-  @override
-  State<Productitem> createState() => _ProductitemState();
-}
+  const Productitem({super.key, required this.productModel});
 
-class _ProductitemState extends State<Productitem> {
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
-    final productModel = Provider.of<ProductModel>(context);
 
     return Container(
       decoration: BoxDecoration(
@@ -37,8 +32,8 @@ class _ProductitemState extends State<Productitem> {
       child: Column(children: [
         FancyShimmerImage(
           imageUrl: productModel.imageUrl,
-          height: size.width * 0.21,
-          width: size.width * 0.2,
+          height: 100,
+          width: 100,
           boxFit: BoxFit.fill,
         ),
         const Spacer(),
@@ -67,28 +62,36 @@ class _ProductitemState extends State<Productitem> {
               Flexible(
                 child: Row(
                   children: [
-                    Expanded(
-                      child: TextWidget(
-                        text: '${productModel.price}\$',
-                        color: AppColors.primary,
+                    (productModel.isOnSale)
+                        ? Expanded(
+                            child: TextWidget(
+                              text: '${productModel.price}\$',
+                              color: AppColors.primary,
+                              maxLines: 1,
+                              textSize: 16,
+                              isTitle: true,
+                            ),
+                          )
+                        : Expanded(
+                            child: TextWidget(
+                              text: '${productModel.salePrice}\$',
+                              color: AppColors.primary,
+                              maxLines: 1,
+                              textSize: 16,
+                              isTitle: true,
+                            ),
+                          ),
+                    if (productModel.isOnSale)
+                      TextWidget(
+                        text: 'Sale',
+                        color: AppColors.redColor,
                         maxLines: 1,
                         textSize: 16,
                         isTitle: true,
                       ),
-                    ),
-                    Flexible(
-                      child: FittedBox(
-                        child: TextWidget(
-                          text: productModel.isPiece ? 'Piece' : 'kg',
-                          color: AppColors.primary,
-                          textSize: 14,
-                          isTitle: true,
-                        ),
-                      ),
-                    ),
                   ],
                 ),
-              )
+              ),
             ],
           ),
         ),
