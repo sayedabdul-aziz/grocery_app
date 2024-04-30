@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/core/consts/navigation.dart';
 import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/custom_button.dart';
-import 'package:grocery_app/core/widgets/feed_items.dart';
 import 'package:grocery_app/models/products_model.dart';
 import 'package:grocery_app/providers/products_provider.dart';
+import 'package:grocery_app/screens/admin/home/add_product.dart';
+import 'package:grocery_app/screens/admin/home/widgets/product_item.dart';
 import 'package:provider/provider.dart';
 
 class AdminHomeView extends StatelessWidget {
@@ -17,20 +19,21 @@ class AdminHomeView extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 11),
-              Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
+          padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 25),
+                Column(
+                  children: [
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('Hi, Admin 👋', style: getbodyStyle()),
-                        Text('Manage Your Orders Now!', style: getsmallStyle()),
+                        Text('Hi, Admin 👋',
+                            style: getHeadlineStyle(fontSize: 22)),
+                        Text('Manage Your Orders Now!',
+                            style: getsmallStyle(fontSize: 14)),
                         const SizedBox(height: 30),
                         Row(children: [
                           // add hotel button
@@ -39,35 +42,37 @@ class AdminHomeView extends StatelessWidget {
                               color: AppColors.primary,
                               text: 'Add Product +',
                               onTap: () {
-                                // navigateTo(context, const AddHotelView());
+                                navigateTo(context, const AddProductView());
                               },
                             ),
                           ),
                         ]),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 30),
-                ],
-              ),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  childAspectRatio: 200 / 250,
+                    const SizedBox(height: 30),
+                  ],
                 ),
-                itemCount: allProducts.length,
-                itemBuilder: (context, index) {
-                  return ChangeNotifierProvider.value(
-                    value: allProducts[index],
-                    child: const FeedsWidget(),
-                  );
-                },
-              ),
-            ],
+                Text('All Products', style: getTitleStyle()),
+                const SizedBox(height: 15),
+                GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 10,
+                    crossAxisSpacing: 10,
+                    mainAxisExtent: 220,
+                  ),
+                  itemCount: allProducts.length,
+                  itemBuilder: (context, index) {
+                    return ChangeNotifierProvider.value(
+                      value: allProducts[index],
+                      child: const Productitem(),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),

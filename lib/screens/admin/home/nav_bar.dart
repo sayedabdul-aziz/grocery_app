@@ -15,7 +15,6 @@ class _AdminNavBarViewState extends State<AdminNavBarView> {
   final List _page = [
     const AdminHomeView(),
     const AdminWalletView(),
-    // const AdminProfileView()
   ];
 
   @override
@@ -66,20 +65,6 @@ class _AdminNavBarViewState extends State<AdminNavBarView> {
                     },
                     icon: const Icon(Icons.wallet),
                     color: _selectedIndex == 1
-                        ? AppColors.primary
-                        : AppColors.white,
-                  ),
-                  IconButton(
-                    splashColor: Colors.transparent,
-                    highlightColor: Colors.transparent,
-                    enableFeedback: false,
-                    onPressed: () {
-                      setState(() {
-                        _selectedIndex = 2;
-                      });
-                    },
-                    icon: const Icon(Icons.person),
-                    color: _selectedIndex == 2
                         ? AppColors.primary
                         : AppColors.white,
                   ),

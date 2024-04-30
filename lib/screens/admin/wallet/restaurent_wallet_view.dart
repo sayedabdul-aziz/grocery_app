@@ -35,7 +35,7 @@ class AdminWalletViewState extends State<AdminWalletView> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('Check Booking Orders'),
+          title: const Text('Check Orders'),
         ),
         body: Padding(
           padding: const EdgeInsets.only(top: 20),

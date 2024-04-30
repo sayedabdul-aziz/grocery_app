@@ -4,35 +4,51 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/custom_button.dart';
+import 'package:grocery_app/models/products_model.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AddRestuarentView extends StatefulWidget {
-  const AddRestuarentView({super.key});
+class AddProductView extends StatefulWidget {
+  const AddProductView({super.key, this.model});
+
+  final ProductModel? model;
 
   @override
-  _AddRestuarentViewScreenState createState() =>
-      _AddRestuarentViewScreenState();
+  _AddProductViewScreenState createState() => _AddProductViewScreenState();
 }
 
-class _AddRestuarentViewScreenState extends State<AddRestuarentView> {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _addressController = TextEditingController();
-  final TextEditingController _contactController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _descController = TextEditingController();
+class _AddProductViewScreenState extends State<AddProductView> {
+  late TextEditingController _nameController;
+  late TextEditingController _price;
+  late TextEditingController salePrice;
   final formKey = GlobalKey<FormState>();
 
   String? _imagePath;
   File? file;
   String? coverUrl;
 
+  late String category;
+  late bool isSale;
+  late bool isPiece;
+
+  @override
+  void initState() {
+    _nameController = TextEditingController(text: widget.model?.title);
+    _price = TextEditingController(text: widget.model?.price.toString());
+    salePrice = TextEditingController(text: widget.model?.salePrice.toString());
+    category = widget.model?.productCategoryName ?? 'Vegetables';
+    isSale = widget.model?.isOnSale ?? false;
+    isPiece = widget.model?.isPiece ?? false;
+    super.initState();
+  }
+
   uploadImageToFireStore(File image, String imageName) async {
-    Reference ref =
-        FirebaseStorage.instanceFor(bucket: 'gs://hotel-wave.appspot.com')
-            .ref()
-            .child('restaurents/${DateTime.now().toIso8601String()}$imageName');
+    Reference ref = FirebaseStorage.instanceFor(
+            bucket: 'gs://grocery-app-771e8.appspot.com')
+        .ref()
+        .child('products/${DateTime.now().toIso8601String()}$imageName');
     SettableMetadata metadata = SettableMetadata(contentType: 'image/jpeg');
     await ref.putFile(image, metadata);
     String url = await ref.getDownloadURL();
@@ -53,45 +69,31 @@ class _AddRestuarentViewScreenState extends State<AddRestuarentView> {
   }
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Restaurent'),
+        title: const Text('Add Product'),
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(20),
         child: CustomButton(
-          text: 'Add Restaurent',
+          text: 'Add Product',
           onTap: () {
             if (formKey.currentState!.validate() && coverUrl != null) {
+              formKey.currentState!.save();
               var id = DateTime.now().toString();
-              FirebaseFirestore.instance.collection("restaurents").doc(id).set({
-                "id": id,
-                "name": _nameController.text,
-                "location": _addressController.text,
-                "contactNumber": _contactController.text,
-                "email": _emailController.text,
-                "cover": coverUrl,
-                "description": _descController.text,
-                "rating": 4.0,
-                "reviews": [
-                  {
-                    "name": "Ahmed Ali",
-                    "rate": 4.0,
-                    "comment": "Great experience, friendly staff!"
-                  },
-                  {
-                    "name": "Mohammed Ali",
-                    "rate": 5.0,
-                    "comment": "Absolutely loved my stay. Highly recommended!"
-                  }
-                ]
-              });
+              FirebaseFirestore.instance.collection("restaurents").doc(id).set(
+                  ProductsModel(
+                          id: id,
+                          title: _nameController.text,
+                          imageUrl: coverUrl.toString(),
+                          productCategoryName: category,
+                          price: double.parse(_price.text),
+                          salePrice: double.parse(salePrice.text),
+                          isOnSale: isSale,
+                          isPiece: isPiece)
+                      .toJson(),
+                  SetOptions(merge: true));
               Navigator.of(context).pop();
             }
           },
@@ -130,11 +132,11 @@ class _AddRestuarentViewScreenState extends State<AddRestuarentView> {
                 ),
               ),
               const Gap(16),
-              const Text('Restaurent Name'),
+              const Text('Product Name'),
               const Gap(5),
               TextFormField(
                 controller: _nameController,
-                decoration: const InputDecoration(hintText: 'Restaurent Name'),
+                decoration: const InputDecoration(hintText: 'Product Name'),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '* Required';
@@ -143,73 +145,121 @@ class _AddRestuarentViewScreenState extends State<AddRestuarentView> {
                 },
               ),
               const SizedBox(height: 16.0),
-              const Text('Description'),
+              const Text('Category'),
               const Gap(5),
-              TextFormField(
-                controller: _descController,
-                maxLines: 3,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return '* Required';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(hintText: 'Description'),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.shadeColor),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: DropdownButton<String>(
+                    value: category,
+                    icon: const Icon(Icons.keyboard_arrow_down),
+                    elevation: 16,
+                    underline: const SizedBox(),
+                    isExpanded: true,
+                    items: catInfo
+                        .map((e) => DropdownMenuItem(
+                            value: e['catText'].toString(),
+                            child: Text('${e['catText']}')))
+                        .toList(),
+                    style: getbodyStyle(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        category = newValue!;
+                      });
+                    }),
               ),
               const SizedBox(height: 16.0),
-              const Text('Location'),
+              Row(
+                children: [
+                  const Text('is Piece'),
+                  Checkbox(
+                    value: isPiece,
+                    onChanged: (value) {
+                      setState(() {
+                        isPiece = value!;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              const Gap(15),
+              const Text('Price'),
               const Gap(5),
               TextFormField(
-                controller: _addressController,
+                controller: _price,
+                keyboardType: TextInputType.number,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '* Required';
                   }
                   return null;
                 },
-                decoration: const InputDecoration(hintText: 'Location'),
+                decoration: const InputDecoration(hintText: 'Ex: 20'),
               ),
               const SizedBox(height: 16.0),
-              const Text('Contact Number'),
+              Row(
+                children: [
+                  const Text('On Sale'),
+                  Checkbox(
+                    value: isSale,
+                    onChanged: (value) {
+                      setState(() {
+                        isSale = value!;
+                      });
+                    },
+                  ),
+                ],
+              ),
+              const Gap(15),
+              const Text('Sale Price'),
               const Gap(5),
               TextFormField(
-                controller: _contactController,
+                controller: salePrice,
+                readOnly: !isSale,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return '* Required';
                   }
                   return null;
                 },
-                decoration: const InputDecoration(hintText: 'Contact Number'),
+                decoration: InputDecoration(
+                    hintText: !isSale ? 'Check On Sale Price first' : 'ex: 15'),
                 keyboardType: TextInputType.phone,
               ),
-              const SizedBox(height: 16.0),
-              const Text('Email'),
-              const Gap(5),
-              TextFormField(
-                controller: _emailController,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return '* Required';
-                  }
-                  return null;
-                },
-                decoration: const InputDecoration(hintText: 'Email'),
-                keyboardType: TextInputType.phone,
-              ),
-              const SizedBox(height: 16.0),
             ],
           ),
         ),
       ),
     );
   }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _addressController.dispose();
-    _contactController.dispose();
-    super.dispose();
-  }
 }
+
+List<Map<String, dynamic>> catInfo = [
+  {
+    'imgPath': 'assets/images/cat/fruits.png',
+    'catText': 'Fruits',
+  },
+  {
+    'imgPath': 'assets/images/cat/veg.png',
+    'catText': 'Vegetables',
+  },
+  {
+    'imgPath': 'assets/images/cat/Spinach.png',
+    'catText': 'Herbs',
+  },
+  {
+    'imgPath': 'assets/images/cat/nuts.png',
+    'catText': 'Nuts',
+  },
+  {
+    'imgPath': 'assets/images/cat/spices.png',
+    'catText': 'Spices',
+  },
+  {
+    'imgPath': 'assets/images/cat/grains.png',
+    'catText': 'Grains',
+  },
+];

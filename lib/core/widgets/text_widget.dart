@@ -1,16 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_app/core/utils/colors.dart';
 
 class TextWidget extends StatelessWidget {
   TextWidget({
-    Key? key,
+    super.key,
     required this.text,
     required this.color,
     required this.textSize,
     this.isTitle = false,
     this.maxLines = 10,
-  }) : super(key: key);
+  });
   final String text;
-  final Color color;
+  final Color? color;
   final double textSize;
   bool isTitle;
   int maxLines = 10;
@@ -21,7 +22,7 @@ class TextWidget extends StatelessWidget {
       maxLines: maxLines,
       style: TextStyle(
           overflow: TextOverflow.ellipsis,
-          color: color,
+          color: color??AppColors.white,
           fontSize: textSize,
           fontWeight: isTitle ? FontWeight.bold : FontWeight.normal),
     );
