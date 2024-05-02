@@ -127,6 +127,7 @@ class CartScreen extends StatelessWidget {
                         .doc(orderId)
                         .set({
                       'orderId': orderId,
+                      'productName': getCurrProduct.title,
                       'userId': user!.uid,
                       'status': '0',
                       'productId': value.productId,

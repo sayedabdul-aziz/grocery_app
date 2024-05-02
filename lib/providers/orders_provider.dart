@@ -15,11 +15,12 @@ class OrdersProvider with ChangeNotifier {
         .then((QuerySnapshot ordersSnapshot) {
       _orders = [];
       // _orders.clear();
-      ordersSnapshot.docs.forEach((element) {
+      for (var element in ordersSnapshot.docs) {
         _orders.insert(
           0,
           OrderModel(
             orderId: element.get('orderId'),
+            productName: element.get('productName'),
             userId: element.get('userId'),
             productId: element.get('productId'),
             userName: element.get('userName'),
@@ -29,7 +30,7 @@ class OrdersProvider with ChangeNotifier {
             orderDate: element.get('orderDate'),
           ),
         );
-      });
+      }
     });
     notifyListeners();
   }

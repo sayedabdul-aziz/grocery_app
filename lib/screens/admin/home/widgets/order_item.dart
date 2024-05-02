@@ -6,74 +6,111 @@ import 'package:grocery_app/core/utils/colors.dart';
 class OrderItem extends StatelessWidget {
   final String imageUrl;
   final String name;
-  final String location;
-  final String rating;
+  final String quntity;
+  final String date;
+  final String price;
+  final String productName;
 
-  const OrderItem({
-    super.key,
-    required this.imageUrl,
-    required this.name,
-    required this.location,
-    required this.rating,
-  });
+  const OrderItem(
+      {super.key,
+      required this.imageUrl,
+      required this.productName,
+      required this.name,
+      required this.quntity,
+      required this.date,
+      required this.price});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           color: AppColors.shadeColor,
           borderRadius: const BorderRadius.all(
             Radius.circular(15),
           )),
-      child: Row(
+      child: Column(
         children: [
-          SizedBox(
-            height: 90,
-            width: 150,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.all(Radius.circular(15)),
-              child: Image.network(
-                imageUrl,
-                fit: BoxFit.cover,
-                loadingBuilder: (context, child, loadingProgress) {
-                  if (loadingProgress == null) {
-                    return child;
-                  }
-                  return Image.asset('assets/logo.png');
-                },
-              ),
-            ),
-          ),
-          const Gap(15),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Text(name, style: getbodyStyle()),
-                const Gap(5),
-                Row(
-                  children: [
-                    const Icon(Icons.star),
-                    const SizedBox(width: 5),
-                    Text(rating, style: getbodyStyle()),
-                  ],
+          Row(
+            children: [
+              SizedBox(
+                height: 90,
+                width: 150,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  child: Image.network(
+                    imageUrl,
+                    fit: BoxFit.cover,
+                    loadingBuilder: (context, child, loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child;
+                      }
+                      return Image.asset('assets/logo.png');
+                    },
+                  ),
                 ),
-                const Gap(10),
-                Row(
+              ),
+              const Gap(15),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    const Icon(Icons.location_city_rounded),
-                    const SizedBox(width: 5),
-                    Text(
-                      'Nasr City, Cairo',
-                      style: getbodyStyle(),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.person,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(name, style: getbodyStyle()),
+                      ],
+                    ),
+                    const Gap(5),
+                    const Gap(10),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.production_quantity_limits_rounded,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          quntity,
+                          style: getbodyStyle(),
+                        ),
+                      ],
+                    ),
+                    const Gap(10),
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_city_rounded,
+                          color: Colors.white,
+                        ),
+                        const SizedBox(width: 5),
+                        Text(
+                          'Nasr City, Cairo',
+                          style: getbodyStyle(),
+                        ),
+                      ],
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+              const Gap(10),
+            ],
           ),
-          const Gap(10),
+          Row(
+            children: [
+              const Icon(
+                Icons.date_range_rounded,
+                color: Colors.white,
+              ),
+              const SizedBox(width: 5),
+              Text(date, style: getbodyStyle()),
+            ],
+          ),
         ],
       ),
     );
