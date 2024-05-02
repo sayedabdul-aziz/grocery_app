@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/screens/admin/home/home_view.dart';
-import 'package:grocery_app/screens/admin/wallet/restaurent_wallet_view.dart';
+import 'package:grocery_app/screens/admin/wallet/wallet_view.dart';
 
 class AdminNavBarView extends StatefulWidget {
   const AdminNavBarView({super.key});

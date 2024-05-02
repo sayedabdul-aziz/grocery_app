@@ -1,30 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/core/widgets/text_widget.dart';
+import 'package:grocery_app/core/widgets/custom_button.dart';
 
 class AuthButton extends StatelessWidget {
   const AuthButton({
-    Key? key,
+    super.key,
     required this.fct,
     required this.buttonText,
     this.primary = Colors.white38,
-  }) : super(key: key);
-  final Function fct;
+  });
+  final Function() fct;
   final String buttonText;
   final Color primary;
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-          onPressed: () {
-            fct();
-            // _submitFormOnLogin();
-          },
-          child: TextWidget(
-            text: buttonText,
-            textSize: 18,
-            color: Colors.white,
-          )),
+    return CustomButton(
+      text: buttonText,
+      onTap: fct,
     );
   }
 }

@@ -3,13 +3,13 @@ import 'package:gap/gap.dart';
 import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 
-class ResturentItem extends StatelessWidget {
+class OrderItem extends StatelessWidget {
   final String imageUrl;
   final String name;
   final String location;
   final String rating;
 
-  const ResturentItem({
+  const OrderItem({
     super.key,
     required this.imageUrl,
     required this.name,

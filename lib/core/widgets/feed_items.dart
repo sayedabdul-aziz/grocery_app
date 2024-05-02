@@ -1,23 +1,22 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:grocery_app/models/products_model.dart';
-import 'package:grocery_app/providers/cart_provider.dart';
+import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/price_widget.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
+import 'package:grocery_app/models/products_model.dart';
+import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../consts/firebase_consts.dart';
-import '../../inner_screens/on_sale_screen.dart';
 import '../../inner_screens/product_details.dart';
 import '../../providers/wishlist_provider.dart';
+import '../consts/firebase_consts.dart';
 import '../services/global_methods.dart';
 import '../services/utils.dart';
 import 'heart_btn.dart';
 
 class FeedsWidget extends StatefulWidget {
-  const FeedsWidget({Key? key}) : super(key: key);
+  const FeedsWidget({super.key});
 
   @override
   State<FeedsWidget> createState() => _FeedsWidgetState();
@@ -40,12 +39,11 @@ class _FeedsWidgetState extends State<FeedsWidget> {
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
-    Size size = Utils(context).getScreenSize;
     final productModel = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
-    bool? _isInCart = cartProvider.getCartItems.containsKey(productModel.id);
+    bool? isInCart = cartProvider.getCartItems.containsKey(productModel.id);
     final wishlistProvider = Provider.of<WishlistProvider>(context);
-    bool? _isInWishlist =
+    bool? isInWishlist =
         wishlistProvider.getWishlistItems.containsKey(productModel.id);
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -56,15 +54,13 @@ class _FeedsWidgetState extends State<FeedsWidget> {
           onTap: () {
             Navigator.pushNamed(context, ProductDetails.routeName,
                 arguments: productModel.id);
-            // GlobalMethods.navigateTo(
-            //     ctx: context, routeName: ProductDetails.routeName);
           },
           borderRadius: BorderRadius.circular(12),
           child: Column(children: [
             FancyShimmerImage(
               imageUrl: productModel.imageUrl,
-              height: size.width * 0.21,
-              width: size.width * 0.2,
+              height: 100,
+              width: 100,
               boxFit: BoxFit.fill,
             ),
             Padding(
@@ -86,7 +82,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                       flex: 1,
                       child: HeartBTN(
                         productId: productModel.id,
-                        isInWishlist: _isInWishlist,
+                        isInWishlist: isInWishlist,
                       )),
                 ],
               ),
@@ -122,25 +118,6 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                         const SizedBox(
                           width: 5,
                         ),
-                        Flexible(
-                            flex: 2,
-                            // TextField can be used also instead of the textFormField
-                            child: TextFormField(
-                              controller: _quantityTextController,
-                              key: const ValueKey('10'),
-                              style: TextStyle(color: color, fontSize: 18),
-                              keyboardType: TextInputType.number,
-                              maxLines: 1,
-                              enabled: true,
-                              onChanged: (valueee) {
-                                setState(() {});
-                              },
-                              inputFormatters: [
-                                FilteringTextInputFormatter.allow(
-                                  RegExp('[0-9.]'),
-                                ),
-                              ],
-                            ))
                       ],
                     ),
                   )
@@ -151,7 +128,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
             SizedBox(
               width: double.infinity,
               child: TextButton(
-                onPressed: _isInCart
+                onPressed: isInCart
                     ? null
                     : () async {
                         // if (_isInCart) {
@@ -174,15 +151,9 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                         //     productId: productModel.id,
                         //     quantity: int.parse(_quantityTextController.text));
                       },
-                child: TextWidget(
-                  text: _isInCart ? 'In cart' : 'Add to cart',
-                  maxLines: 1,
-                  color: color,
-                  textSize: 20,
-                ),
                 style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Theme.of(context).cardColor),
+                    backgroundColor: MaterialStateProperty.all(
+                        isInCart ? AppColors.primary : AppColors.accentColor),
                     tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     shape: MaterialStateProperty.all<RoundedRectangleBorder>(
                       const RoundedRectangleBorder(
@@ -192,6 +163,12 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                         ),
                       ),
                     )),
+                child: TextWidget(
+                  text: isInCart ? 'In cart' : 'Add to cart',
+                  maxLines: 1,
+                  color: color,
+                  textSize: 20,
+                ),
               ),
             )
           ]),

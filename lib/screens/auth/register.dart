@@ -1,20 +1,18 @@
-import 'package:card_swiper/card_swiper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/core/utils/app_text_styles.dart';
+import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/screens/auth/login.dart';
 import 'package:grocery_app/screens/loading_manager.dart';
 
-import '../../core/consts/contss.dart';
 import '../../core/consts/firebase_consts.dart';
 import '../../core/services/global_methods.dart';
-import '../../core/services/utils.dart';
 import '../../core/widgets/auth_button.dart';
 import '../../core/widgets/text_widget.dart';
 import '../../fetch_screen.dart';
-import 'forget_pass.dart';
 
 class RegisterScreen extends StatefulWidget {
   static const routeName = '/RegisterScreen';
@@ -78,7 +76,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         Navigator.of(context).pushReplacement(MaterialPageRoute(
           builder: (context) => const FetchScreen(),
         ));
-        print('Succefully registered');
       } on FirebaseException catch (error) {
         GlobalMethods.errorDialog(
             subtitle: '${error.message}', context: context);
@@ -100,28 +97,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Utils(context).getTheme;
-    Color color = Utils(context).color;
-
     return Scaffold(
       body: LoadingManager(
         isLoading: _isLoading,
         child: Stack(
           children: <Widget>[
-            Swiper(
-              duration: 800,
-              autoplayDelay: 6000,
-
-              itemBuilder: (BuildContext context, int index) {
-                return Image.asset(
-                  Constss.authImagesPaths[index],
-                  fit: BoxFit.cover,
-                );
-              },
-              autoplay: true,
-              itemCount: Constss.authImagesPaths.length,
-
-              // control: const SwiperControl(),
+            Image.asset(
+              'assets/images/landing/vergtablebg.jpg',
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
             ),
             Container(
               color: Colors.black.withOpacity(0.7),
@@ -141,9 +126,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onTap: () => Navigator.canPop(context)
                         ? Navigator.pop(context)
                         : null,
-                    child: Icon(
+                    child: const Icon(
                       IconlyLight.arrowLeft2,
-                      color: theme == true ? Colors.white : Colors.black,
+                      color: Colors.white,
                       size: 24,
                     ),
                   ),
@@ -189,15 +174,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: const InputDecoration(
                             hintText: 'Full name',
                             hintStyle: TextStyle(color: Colors.white),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
-                            ),
                           ),
                         ),
                         const SizedBox(
@@ -221,15 +197,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: const InputDecoration(
                             hintText: 'Email',
                             hintStyle: TextStyle(color: Colors.white),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
-                            ),
                           ),
                         ),
                         const SizedBox(
@@ -267,15 +234,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                             ),
                             hintText: 'Password',
                             hintStyle: const TextStyle(color: Colors.white),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            errorBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
-                            ),
                           ),
                         ),
                         const SizedBox(
@@ -300,41 +258,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           decoration: const InputDecoration(
                             hintText: 'Shipping address',
                             hintStyle: TextStyle(color: Colors.white),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white),
-                            ),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.red),
-                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
                   const SizedBox(
-                    height: 5.0,
-                  ),
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: TextButton(
-                      onPressed: () {
-                        GlobalMethods.navigateTo(
-                            ctx: context,
-                            routeName: ForgetPasswordScreen.routeName);
-                      },
-                      child: const Text(
-                        'Forget password?',
-                        maxLines: 1,
-                        style: TextStyle(
-                            color: Colors.lightBlue,
-                            fontSize: 18,
-                            decoration: TextDecoration.underline,
-                            fontStyle: FontStyle.italic),
-                      ),
-                    ),
+                    height: 30,
                   ),
                   AuthButton(
                     buttonText: 'Sign up',
@@ -343,24 +273,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     },
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 40,
                   ),
-                  RichText(
-                    text: TextSpan(
-                        text: 'Already a user?',
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 18),
-                        children: <TextSpan>[
-                          TextSpan(
-                              text: ' Sign in',
-                              style: const TextStyle(
-                                  color: Colors.lightBlue, fontSize: 18),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () {
-                                  Navigator.pushReplacementNamed(
-                                      context, LoginScreen.routeName);
-                                }),
-                        ]),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      RichText(
+                        text: TextSpan(
+                            text: 'Already a user?',
+                            style: getbodyStyle(),
+                            children: <TextSpan>[
+                              TextSpan(
+                                  text: ' Sign in',
+                                  style:
+                                      getTitleStyle(color: AppColors.primary),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      Navigator.pushReplacementNamed(
+                                          context, LoginScreen.routeName);
+                                    }),
+                            ]),
+                      ),
+                    ],
                   ),
                 ],
               ),

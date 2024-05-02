@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:grocery_app/core/widgets/back_widget.dart';
 import 'package:grocery_app/core/widgets/empty_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/orders_provider.dart';
 import '../../../core/services/utils.dart';
 import '../../../core/widgets/text_widget.dart';
+import '../../../providers/orders_provider.dart';
 import 'orders_widget.dart';
 
 class OrdersScreen extends StatefulWidget {
   static const routeName = '/OrderScreen';
 
-  const OrdersScreen({Key? key}) : super(key: key);
+  const OrdersScreen({super.key});
 
   @override
   State<OrdersScreen> createState() => _OrdersScreenState();

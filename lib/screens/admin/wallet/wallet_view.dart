@@ -5,7 +5,7 @@ import 'package:gap/gap.dart';
 import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/custom_button.dart';
-import 'package:grocery_app/screens/admin/home/widgets/resturent_item.dart';
+import 'package:grocery_app/screens/admin/home/widgets/order_item.dart';
 
 class AdminWalletView extends StatefulWidget {
   const AdminWalletView({super.key});
@@ -32,7 +32,7 @@ class AdminWalletViewState extends State<AdminWalletView> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Check Orders'),
@@ -53,16 +53,7 @@ class AdminWalletViewState extends State<AdminWalletView> {
                 ),
                 Tab(
                   child: Text(
-                    'Accepted',
-                    style: getbodyStyle(
-                      fontSize: 16,
-                      color: AppColors.white,
-                    ),
-                  ),
-                ),
-                Tab(
-                  child: Text(
-                    'Cancelled',
+                    'All Orders',
                     style: getbodyStyle(
                       fontSize: 16,
                       color: AppColors.white,
@@ -73,11 +64,11 @@ class AdminWalletViewState extends State<AdminWalletView> {
               Expanded(
                   child: TabBarView(
                       children: List.generate(
-                3,
+                2,
                 (index) => StreamBuilder(
                     stream: FirebaseFirestore.instance
-                        .collection('restaurant-booking')
-                        .where('status', isEqualTo: index)
+                        .collection('cart')
+                        .where('cart', isEqualTo: index)
                         .snapshots(),
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
@@ -126,7 +117,7 @@ class AdminWalletViewState extends State<AdminWalletView> {
                                         color: AppColors.shadeColor)),
                                 child: Column(
                                   children: [
-                                    ResturentItem(
+                                    OrderItem(
                                       imageUrl: item['restaurant']['cover'],
                                       name: item['restaurant']['name'],
                                       location: item['restaurant']['address'],

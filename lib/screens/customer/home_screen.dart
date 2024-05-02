@@ -1,18 +1,19 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:grocery_app/core/services/utils.dart';
+import 'package:grocery_app/core/utils/colors.dart';
+import 'package:grocery_app/core/widgets/text_widget.dart';
 import 'package:grocery_app/inner_screens/feeds_screen.dart';
 import 'package:grocery_app/inner_screens/on_sale_screen.dart';
-import 'package:grocery_app/core/services/utils.dart';
-import 'package:grocery_app/core/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
 import '../../core/consts/contss.dart';
-import '../../models/products_model.dart';
-import '../../providers/products_provider.dart';
 import '../../core/services/global_methods.dart';
 import '../../core/widgets/feed_items.dart';
 import '../../core/widgets/on_sale_widget.dart';
+import '../../models/products_model.dart';
+import '../../providers/products_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,20 +39,24 @@ class _HomeScreenState extends State<HomeScreen> {
               height: size.height * 0.04,
             ),
             SizedBox(
-              height: size.height * 0.33,
+              height: size.height * 0.25,
+              width: size.width * .9,
               child: Swiper(
                 itemBuilder: (BuildContext context, int index) {
-                  return Image.asset(
-                    Constss.offerImages[index],
-                    fit: BoxFit.fill,
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(25),
+                    child: Image.asset(
+                      Constss.offerImages[index],
+                      fit: BoxFit.fill,
+                    ),
                   );
                 },
                 autoplay: true,
                 itemCount: Constss.offerImages.length,
-                pagination: const SwiperPagination(
+                pagination: SwiperPagination(
                     alignment: Alignment.bottomCenter,
                     builder: DotSwiperPaginationBuilder(
-                        color: Colors.white, activeColor: Colors.red)),
+                        color: Colors.white, activeColor: AppColors.primary)),
                 // control: const SwiperControl(color: Colors.black),
               ),
             ),
@@ -66,7 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: TextWidget(
                 text: 'View all',
                 maxLines: 1,
-                color: Colors.blue,
+                color: AppColors.primary,
                 textSize: 20,
               ),
             ),
@@ -100,7 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 Flexible(
                   child: SizedBox(
-                    height: size.height * 0.24,
+                    height: 220,
                     child: ListView.builder(
                         itemCount: productsOnSale.length < 10
                             ? productsOnSale.length
@@ -138,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     child: TextWidget(
                       text: 'Browse all',
                       maxLines: 1,
-                      color: Colors.blue,
+                      color: AppColors.primary,
                       textSize: 20,
                     ),
                   ),

@@ -1,19 +1,18 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:grocery_app/inner_screens/product_details.dart';
-import 'package:grocery_app/models/wishlist_model.dart';
-import 'package:grocery_app/core/services/global_methods.dart';
+import 'package:gap/gap.dart';
 import 'package:grocery_app/core/widgets/heart_btn.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
+import 'package:grocery_app/inner_screens/product_details.dart';
+import 'package:grocery_app/models/wishlist_model.dart';
 import 'package:provider/provider.dart';
 
+import '../../../core/services/utils.dart';
 import '../../../providers/products_provider.dart';
 import '../../../providers/wishlist_provider.dart';
-import '../../../core/services/utils.dart';
 
 class WishlistWidget extends StatelessWidget {
-  const WishlistWidget({Key? key}) : super(key: key);
+  const WishlistWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +24,7 @@ class WishlistWidget extends StatelessWidget {
     double usedPrice = getCurrProduct.isOnSale
         ? getCurrProduct.salePrice
         : getCurrProduct.price;
-    bool? _isInWishlist =
+    bool? isInWishlist =
         wishlistProvider.getWishlistItems.containsKey(getCurrProduct.id);
     final Color color = Utils(context).color;
     Size size = Utils(context).getScreenSize;
@@ -34,7 +33,7 @@ class WishlistWidget extends StatelessWidget {
       child: GestureDetector(
         onTap: () {
           Navigator.pushNamed(context, ProductDetails.routeName,
-            arguments: wishlistModel.productId);
+              arguments: wishlistModel.productId);
         },
         child: Container(
           height: size.height * 0.20,
@@ -49,7 +48,7 @@ class WishlistWidget extends StatelessWidget {
                 flex: 2,
                 child: Container(
                   margin: const EdgeInsets.only(left: 8),
-                  // width: size.width * 0.2,
+                  width: size.width * 0.25,
                   height: size.width * 0.25,
                   child: FancyShimmerImage(
                     imageUrl: getCurrProduct.imageUrl,
@@ -65,21 +64,16 @@ class WishlistWidget extends StatelessWidget {
                   children: [
                     Flexible(
                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(
-                              IconlyLight.bag2,
-                              color: color,
-                            ),
-                          ),
                           HeartBTN(
                             productId: getCurrProduct.id,
-                            isInWishlist: _isInWishlist,
+                            isInWishlist: isInWishlist,
                           )
                         ],
                       ),
                     ),
+                    const Gap(20),
                     TextWidget(
                       text: getCurrProduct.title,
                       color: color,

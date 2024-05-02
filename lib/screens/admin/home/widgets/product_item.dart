@@ -1,7 +1,6 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/core/consts/navigation.dart';
-import 'package:grocery_app/core/services/utils.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/custom_button.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
@@ -15,8 +14,6 @@ class Productitem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Size size = Utils(context).getScreenSize;
-
     return Container(
       decoration: BoxDecoration(
           color: AppColors.shadeColor.withOpacity(.3),

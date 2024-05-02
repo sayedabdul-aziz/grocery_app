@@ -1,25 +1,25 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:gap/gap.dart';
 import 'package:grocery_app/core/widgets/heart_btn.dart';
 import 'package:provider/provider.dart';
 
 import '../core/consts/firebase_consts.dart';
+import '../core/services/global_methods.dart';
+import '../core/services/utils.dart';
+import '../core/widgets/text_widget.dart';
 import '../providers/cart_provider.dart';
 import '../providers/products_provider.dart';
 import '../providers/viewed_prod_provider.dart';
 import '../providers/wishlist_provider.dart';
-import '../core/services/global_methods.dart';
-import '../core/services/utils.dart';
-import '../core/widgets/text_widget.dart';
 
 class ProductDetails extends StatefulWidget {
   static const routeName = '/ProductDetails';
 
-  const ProductDetails({Key? key}) : super(key: key);
+  const ProductDetails({super.key});
 
   @override
   _ProductDetailsState createState() => _ProductDetailsState();
@@ -50,9 +50,9 @@ class _ProductDetailsState extends State<ProductDetails> {
         ? getCurrProduct.salePrice
         : getCurrProduct.price;
     double totalPrice = usedPrice * int.parse(_quantityTextController.text);
-    bool? _isInCart = cartProvider.getCartItems.containsKey(getCurrProduct.id);
+    bool? isInCart = cartProvider.getCartItems.containsKey(getCurrProduct.id);
 
-    bool? _isInWishlist =
+    bool? isInWishlist =
         wishlistProvider.getWishlistItems.containsKey(getCurrProduct.id);
 
     final viewedProdProvider = Provider.of<ViewedProdProvider>(context);
@@ -85,6 +85,7 @@ class _ProductDetailsState extends State<ProductDetails> {
               // height: screenHeight * .4,
             ),
           ),
+          const Gap(20),
           Flexible(
             flex: 3,
             child: Container(
@@ -114,7 +115,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         ),
                         HeartBTN(
                           productId: getCurrProduct.id,
-                          isInWishlist: _isInWishlist,
+                          isInWishlist: isInWishlist,
                         )
                       ],
                     ),
@@ -168,9 +169,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ],
                     ),
                   ),
-                  const SizedBox(
-                    height: 30,
-                  ),
+                  const Spacer(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -186,7 +185,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             });
                           }
                         },
-                        icon: CupertinoIcons.minus,
+                        icon: Icons.remove,
                         color: Colors.red,
                       ),
                       const SizedBox(
@@ -228,7 +227,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                     .toString();
                           });
                         },
-                        icon: CupertinoIcons.plus,
+                        icon: Icons.add,
                         color: Colors.green,
                       ),
                     ],
@@ -291,7 +290,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                             color: Colors.green,
                             borderRadius: BorderRadius.circular(10),
                             child: InkWell(
-                              onTap: _isInCart
+                              onTap: isInCart
                                   ? null
                                   : () async {
                                       // if (_isInCart) {
@@ -323,7 +322,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                   padding: const EdgeInsets.all(12.0),
                                   child: TextWidget(
                                       text:
-                                          _isInCart ? 'In cart' : 'Add to cart',
+                                          isInCart ? 'In cart' : 'Add to cart',
                                       color: Colors.white,
                                       textSize: 18)),
                             ),

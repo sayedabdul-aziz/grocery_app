@@ -1,16 +1,16 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_app/core/utils/app_text_styles.dart';
+import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/fetch_screen.dart';
 // import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:grocery_app/inner_screens/on_sale_screen.dart';
-import 'package:grocery_app/providers/dark_theme_provider.dart';
 import 'package:grocery_app/providers/orders_provider.dart';
 import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/providers/viewed_prod_provider.dart';
 import 'package:grocery_app/screens/customer/viewed_recently/viewed_recently.dart';
 import 'package:provider/provider.dart';
 
-import 'core/consts/theme_data.dart';
 import 'inner_screens/cat_screen.dart';
 import 'inner_screens/feeds_screen.dart';
 import 'inner_screens/product_details.dart';
@@ -43,66 +43,103 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  DarkThemeProvider themeChangeProvider = DarkThemeProvider();
-
-  void getCurrentAppTheme() async {
-    themeChangeProvider.setDarkTheme =
-        await themeChangeProvider.darkThemePrefs.getTheme();
-  }
-
   @override
   void initState() {
-    getCurrentAppTheme();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        home: MultiProvider(
-          providers: [
-            ChangeNotifierProvider(create: (_) {
-              return themeChangeProvider;
-            }),
-            ChangeNotifierProvider(
-              create: (_) => ProductsProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => ProductsProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => CartProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => WishlistProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => ViewedProdProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => OrdersProvider(),
+        ),
+      ],
+      child: MaterialApp(
+          theme: ThemeData(
+            fontFamily: 'NunitoSans',
+            scaffoldBackgroundColor: AppColors.darkScaffoldbg,
+            appBarTheme: AppBarTheme(
+              backgroundColor: AppColors.darkScaffoldbg,
+              foregroundColor: AppColors.primary,
+              titleTextStyle:
+                  getbodyStyle(fontSize: 20, color: AppColors.primary),
+              centerTitle: true,
             ),
-            ChangeNotifierProvider(
-              create: (_) => CartProvider(),
+            datePickerTheme: DatePickerThemeData(
+                backgroundColor: AppColors.darkScaffoldbg,
+                headerBackgroundColor: AppColors.primary,
+                headerForegroundColor: AppColors.white),
+            cardColor: AppColors.shadeColor,
+            colorScheme: ColorScheme.fromSeed(
+              primary: AppColors.primary,
+              background: AppColors.darkScaffoldbg,
+              error: Colors.red,
+              secondary: AppColors.shadeColor,
+              onSurface: AppColors.white,
+              seedColor: AppColors.shadeColor,
             ),
-            ChangeNotifierProvider(
-              create: (_) => WishlistProvider(),
+            inputDecorationTheme: InputDecorationTheme(
+              contentPadding: const EdgeInsets.only(
+                  left: 10, top: 10, bottom: 10, right: 10),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: AppColors.shadeColor),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: AppColors.shadeColor),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: AppColors.redColor),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderRadius: const BorderRadius.all(Radius.circular(10)),
+                borderSide: BorderSide(color: AppColors.redColor),
+              ),
+              hintStyle: getsmallStyle(),
+              suffixIconColor: AppColors.primary,
+              prefixIconColor: AppColors.primary,
             ),
-            ChangeNotifierProvider(
-              create: (_) => ViewedProdProvider(),
+            dividerTheme: DividerThemeData(
+              color: AppColors.white,
+              indent: 10,
+              endIndent: 10,
             ),
-            ChangeNotifierProvider(
-              create: (_) => OrdersProvider(),
-            ),
-          ],
-          child: Consumer<DarkThemeProvider>(
-              builder: (context, themeProvider, child) {
-            return MaterialApp(
-                debugShowCheckedModeBanner: false,
-                title: 'Flutter Demo',
-                theme: Styles.themeData(themeProvider.getDarkTheme, context),
-                home: const FetchScreen(),
-                routes: {
-                  OnSaleScreen.routeName: (ctx) => const OnSaleScreen(),
-                  FeedsScreen.routeName: (ctx) => const FeedsScreen(),
-                  ProductDetails.routeName: (ctx) => const ProductDetails(),
-                  WishlistScreen.routeName: (ctx) => const WishlistScreen(),
-                  OrdersScreen.routeName: (ctx) => const OrdersScreen(),
-                  ViewedRecentlyScreen.routeName: (ctx) =>
-                      const ViewedRecentlyScreen(),
-                  RegisterScreen.routeName: (ctx) => const RegisterScreen(),
-                  LoginScreen.routeName: (ctx) => const LoginScreen(),
-                  ForgetPasswordScreen.routeName: (ctx) =>
-                      const ForgetPasswordScreen(),
-                  CategoryScreen.routeName: (ctx) => const CategoryScreen(),
-                });
+            progressIndicatorTheme:
+                ProgressIndicatorThemeData(color: AppColors.primary),
+          ),
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          home: const FetchScreen(),
+          routes: {
+            OnSaleScreen.routeName: (ctx) => const OnSaleScreen(),
+            FeedsScreen.routeName: (ctx) => const FeedsScreen(),
+            ProductDetails.routeName: (ctx) => const ProductDetails(),
+            WishlistScreen.routeName: (ctx) => const WishlistScreen(),
+            OrdersScreen.routeName: (ctx) => const OrdersScreen(),
+            ViewedRecentlyScreen.routeName: (ctx) =>
+                const ViewedRecentlyScreen(),
+            RegisterScreen.routeName: (ctx) => const RegisterScreen(),
+            LoginScreen.routeName: (ctx) => const LoginScreen(),
+            ForgetPasswordScreen.routeName: (ctx) =>
+                const ForgetPasswordScreen(),
+            CategoryScreen.routeName: (ctx) => const CategoryScreen(),
           }),
-        ));
+    );
   }
 }

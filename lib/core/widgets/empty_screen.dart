@@ -1,23 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_app/inner_screens/feeds_screen.dart';
 import 'package:grocery_app/core/services/global_methods.dart';
+import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
+import 'package:grocery_app/inner_screens/feeds_screen.dart';
 
 import '../services/utils.dart';
 
 class EmptyScreen extends StatelessWidget {
   const EmptyScreen(
-      {Key? key,
+      {super.key,
       required this.imagePath,
       required this.title,
       required this.subtitle,
-      required this.buttonText})
-      : super(key: key);
+      required this.buttonText});
   final String imagePath, title, subtitle, buttonText;
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
-    final themeState = Utils(context).getTheme;
     Size size = Utils(context).getScreenSize;
     return Scaffold(
       body: SingleChildScrollView(
@@ -48,22 +47,22 @@ class EmptyScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              TextWidget(text: title, color: Colors.cyan, textSize: 20),
+              TextWidget(
+                  text: title, color: AppColors.accentColor, textSize: 20),
               const SizedBox(
                 height: 20,
               ),
-              TextWidget(text: subtitle, color: Colors.cyan, textSize: 20),
+              TextWidget(
+                  text: subtitle, color: AppColors.accentColor, textSize: 20),
               SizedBox(
                 height: size.height * 0.1,
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   elevation: 0,
+                  backgroundColor: AppColors.shadeColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
-                    side: BorderSide(
-                      color: color,
-                    ),
                   ),
                   // onPrimary: color,
                   padding:
@@ -76,8 +75,7 @@ class EmptyScreen extends StatelessWidget {
                 child: TextWidget(
                   text: buttonText,
                   textSize: 20,
-                  color:
-                      themeState ? Colors.grey.shade300 : Colors.grey.shade800,
+                  color: Colors.white,
                   isTitle: true,
                 ),
               ),

@@ -1,15 +1,14 @@
-import 'package:card_swiper/card_swiper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_app/core/consts/navigation.dart';
 import 'package:grocery_app/core/services/global_methods.dart';
+import 'package:grocery_app/core/utils/app_text_styles.dart';
+import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/screens/admin/home/nav_bar.dart';
-import 'package:grocery_app/screens/auth/forget_pass.dart';
 import 'package:grocery_app/screens/auth/register.dart';
 import 'package:grocery_app/screens/loading_manager.dart';
 
-import '../../core/consts/contss.dart';
 import '../../core/consts/firebase_consts.dart';
 import '../../core/widgets/auth_button.dart';
 import '../../core/widgets/google_button.dart';
@@ -85,17 +84,11 @@ class _LoginScreenState extends State<LoginScreen> {
       body: LoadingManager(
         isLoading: _isLoading,
         child: Stack(children: [
-          Swiper(
-            duration: 800,
-            autoplayDelay: 8000,
-            itemBuilder: (BuildContext context, int index) {
-              return Image.asset(
-                Constss.authImagesPaths[index],
-                fit: BoxFit.cover,
-              );
-            },
-            autoplay: true,
-            itemCount: Constss.authImagesPaths.length,
+          Image.asset(
+            'assets/images/landing/vergtablebg.jpg',
+            fit: BoxFit.cover,
+            width: double.infinity,
+            height: double.infinity,
           ),
           Container(
             color: Colors.black.withOpacity(0.7),
@@ -150,12 +143,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             decoration: const InputDecoration(
                               hintText: 'Email',
                               hintStyle: TextStyle(color: Colors.white),
-                              enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
                             ),
                           ),
                           const SizedBox(
@@ -195,12 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   )),
                               hintText: 'Password',
                               hintStyle: const TextStyle(color: Colors.white),
-                              enabledBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
-                              focusedBorder: const UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white),
-                              ),
                             ),
                           ),
                         ],
@@ -212,18 +193,14 @@ class _LoginScreenState extends State<LoginScreen> {
                     alignment: Alignment.topRight,
                     child: TextButton(
                       onPressed: () {
-                        GlobalMethods.navigateTo(
-                            ctx: context,
-                            routeName: ForgetPasswordScreen.routeName);
+                        // GlobalMethods.navigateTo(
+                        //     ctx: context,
+                        //     routeName: ForgetPasswordScreen.routeName);
                       },
-                      child: const Text(
+                      child: Text(
                         'Forget password?',
                         maxLines: 1,
-                        style: TextStyle(
-                            color: Colors.lightBlue,
-                            fontSize: 18,
-                            decoration: TextDecoration.underline,
-                            fontStyle: FontStyle.italic),
+                        style: getbodyStyle(),
                       ),
                     ),
                   ),
@@ -235,11 +212,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     buttonText: 'Login',
                   ),
                   const SizedBox(
-                    height: 10,
-                  ),
-                  const GoogleButton(),
-                  const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
                   Row(
                     children: [
@@ -269,41 +242,34 @@ class _LoginScreenState extends State<LoginScreen> {
                     ],
                   ),
                   const SizedBox(
-                    height: 10,
+                    height: 20,
                   ),
-                  AuthButton(
-                    fct: () {
-                      Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => const FetchScreen(),
-                        ),
-                      );
-                    },
-                    buttonText: 'Continue as a guest',
-                    primary: Colors.black,
-                  ),
+                  const GoogleButton(),
                   const SizedBox(
                     height: 10,
                   ),
-                  RichText(
-                      text: TextSpan(
-                          text: 'Don\'t have an account?',
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 18),
-                          children: [
-                        TextSpan(
-                            text: '  Sign up',
-                            style: const TextStyle(
-                                color: Colors.lightBlue,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w600),
-                            recognizer: TapGestureRecognizer()
-                              ..onTap = () {
-                                GlobalMethods.navigateTo(
-                                    ctx: context,
-                                    routeName: RegisterScreen.routeName);
-                              }),
-                      ]))
+                  const SizedBox(
+                    height: 40,
+                  ),
+                  Center(
+                    child: RichText(
+                        textAlign: TextAlign.center,
+                        text: TextSpan(
+                            text: 'Don\'t have an account?',
+                            style: getbodyStyle(),
+                            children: [
+                              TextSpan(
+                                  text: '  Sign up',
+                                  style:
+                                      getTitleStyle(color: AppColors.primary),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = () {
+                                      GlobalMethods.navigateTo(
+                                          ctx: context,
+                                          routeName: RegisterScreen.routeName);
+                                    }),
+                            ])),
+                  )
                 ],
               ),
             ),

@@ -4,20 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grocery_app/core/consts/firebase_consts.dart';
-import 'package:grocery_app/screens/customer/cart/cart_widget.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
+import 'package:grocery_app/screens/customer/cart/cart_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-import '../../../providers/cart_provider.dart';
-import '../../../providers/orders_provider.dart';
-import '../../../providers/products_provider.dart';
 import '../../../core/services/global_methods.dart';
 import '../../../core/services/utils.dart';
 import '../../../core/widgets/empty_screen.dart';
+import '../../../providers/cart_provider.dart';
+import '../../../providers/orders_provider.dart';
+import '../../../providers/products_provider.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({Key? key}) : super(key: key);
+  const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -62,22 +62,25 @@ class CartScreen extends StatelessWidget {
                     ),
                   ),
                 ]),
-            body: Column(
-              children: [
-                _checkout(ctx: context),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: cartItemsList.length,
-                    itemBuilder: (ctx, index) {
-                      return ChangeNotifierProvider.value(
-                          value: cartItemsList[index],
-                          child: CartWidget(
-                            q: cartItemsList[index].quantity,
-                          ));
-                    },
+            body: Padding(
+              padding: const EdgeInsets.all(10),
+              child: Column(
+                children: [
+                  _checkout(ctx: context),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: cartItemsList.length,
+                      itemBuilder: (ctx, index) {
+                        return ChangeNotifierProvider.value(
+                            value: cartItemsList[index],
+                            child: CartWidget(
+                              q: cartItemsList[index].quantity,
+                            ));
+                      },
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           );
   }
@@ -125,6 +128,7 @@ class CartScreen extends StatelessWidget {
                         .set({
                       'orderId': orderId,
                       'userId': user!.uid,
+                      'status': '0',
                       'productId': value.productId,
                       'price': (getCurrProduct.isOnSale
                               ? getCurrProduct.salePrice

@@ -44,7 +44,7 @@ class _FetchScreenState extends State<FetchScreen> {
         } else {
           await cartProvider.fetchCart();
           await wishlistProvider.fetchWishlist();
-          navigateAndRemoveUntil(context, const BottomBarScreen());
+          navigateAndRemoveUntil(context, const CustomerNavBarView());
         }
       }
     });

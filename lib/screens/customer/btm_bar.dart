@@ -1,85 +1,108 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
-import 'package:grocery_app/screens/customer/categories.dart';
+import 'package:grocery_app/core/utils/colors.dart';
+import 'package:grocery_app/screens/customer/cart/cart_screen.dart';
 import 'package:grocery_app/screens/customer/home_screen.dart';
+import 'package:grocery_app/screens/customer/wishlist/wishlist_screen.dart';
 import 'package:grocery_app/screens/user.dart';
-import 'package:provider/provider.dart';
 
-import '../../providers/dark_theme_provider.dart';
-import 'cart/cart_screen.dart';
-
-class BottomBarScreen extends StatefulWidget {
-  const BottomBarScreen({super.key});
+class CustomerNavBarView extends StatefulWidget {
+  const CustomerNavBarView({super.key});
 
   @override
-  State<BottomBarScreen> createState() => _BottomBarScreenState();
+  State<CustomerNavBarView> createState() => _CustomerNavBarViewState();
 }
 
-class _BottomBarScreenState extends State<BottomBarScreen> {
+class _CustomerNavBarViewState extends State<CustomerNavBarView> {
   int _selectedIndex = 0;
-  final List<Map<String, dynamic>> _pages = [
-    {
-      'page': const HomeScreen(),
-      'title': 'Home Screen',
-    },
-    {
-      'page': CategoriesScreen(),
-      'title': 'Categories Screen',
-    },
-    {
-      'page': const CartScreen(),
-      'title': 'Cart Screen',
-    },
-    {
-      'page': const UserScreen(),
-      'title': 'user Screen',
-    },
+  final List _page = [
+    const HomeScreen(),
+    const WishlistScreen(),
+    const CartScreen(),
+    const UserScreen()
   ];
-  void _selectedPage(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
-    final themeState = Provider.of<DarkThemeProvider>(context);
-
-    bool isDark = themeState.getDarkTheme;
     return Scaffold(
-      // appBar: AppBar(
-      //   title: Text( _pages[_selectedIndex]['title']),
-      // ),
-      body: _pages[_selectedIndex]['page'],
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: isDark ? Theme.of(context).cardColor : Colors.white,
-        type: BottomNavigationBarType.fixed,
-        showSelectedLabels: false,
-        showUnselectedLabels: false,
-        currentIndex: _selectedIndex,
-        unselectedItemColor: isDark ? Colors.white10 : Colors.grey,
-        selectedItemColor: isDark ? Colors.lightBlue.shade200 : Colors.black87,
-        onTap: _selectedPage,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon:
-                Icon(_selectedIndex == 0 ? IconlyBold.home : IconlyLight.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(_selectedIndex == 1
-                ? IconlyBold.category
-                : IconlyLight.category),
-            label: "Categories",
-          ),
-          const BottomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart),
-            label: "Cart",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(
-                _selectedIndex == 3 ? IconlyBold.user2 : IconlyLight.user2),
-            label: "User",
+      body: Stack(
+        children: [
+          _page[_selectedIndex],
+          Positioned(
+            bottom: 15,
+            left: 40,
+            right: 40,
+            child: Container(
+              height: 55,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.bottomBarColor,
+                borderRadius: BorderRadius.circular(22),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    enableFeedback: false,
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 0;
+                      });
+                    },
+                    icon: Icon(
+                      Icons.home_outlined,
+                      size: 25,
+                      color: _selectedIndex == 0
+                          ? AppColors.primary
+                          : AppColors.white,
+                    ),
+                  ),
+                  IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    enableFeedback: false,
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 1;
+                      });
+                    },
+                    icon: const Icon(Icons.favorite),
+                    color: _selectedIndex == 1
+                        ? AppColors.primary
+                        : AppColors.white,
+                  ),
+                  IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    enableFeedback: false,
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 2;
+                      });
+                    },
+                    icon: const Icon(Icons.shopping_cart),
+                    color: _selectedIndex == 2
+                        ? AppColors.primary
+                        : AppColors.white,
+                  ),
+                  IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    enableFeedback: false,
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 3;
+                      });
+                    },
+                    icon: const Icon(Icons.person),
+                    color: _selectedIndex == 3
+                        ? AppColors.primary
+                        : AppColors.white,
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),

@@ -1,16 +1,14 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
-import 'package:grocery_app/inner_screens/product_details.dart';
 import 'package:grocery_app/models/orders_model.dart';
-import 'package:grocery_app/core/services/global_methods.dart';
 import 'package:provider/provider.dart';
 
-import '../../../providers/products_provider.dart';
 import '../../../core/services/utils.dart';
 import '../../../core/widgets/text_widget.dart';
+import '../../../providers/products_provider.dart';
 
 class OrderWidget extends StatefulWidget {
-  const OrderWidget({Key? key}) : super(key: key);
+  const OrderWidget({super.key});
 
   @override
   State<OrderWidget> createState() => _OrderWidgetState();
@@ -37,10 +35,6 @@ class _OrderWidgetState extends State<OrderWidget> {
     return ListTile(
       subtitle:
           Text('Paid: \$${double.parse(ordersModel.price).toStringAsFixed(2)}'),
-      onTap: () {
-        GlobalMethods.navigateTo(
-            ctx: context, routeName: ProductDetails.routeName);
-      },
       leading: FancyShimmerImage(
         width: size.width * 0.2,
         imageUrl: getCurrProduct.imageUrl,

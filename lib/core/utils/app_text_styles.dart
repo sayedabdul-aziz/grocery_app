@@ -12,7 +12,7 @@ TextStyle getHeadlineStyle(
 TextStyle getTitleStyle(
         {Color? color, double? fontSize, FontWeight? fontWeight}) =>
     TextStyle(
-      fontSize: fontSize ?? 16,
+      fontSize: fontSize ?? 18,
       color: color ?? AppColors.white,
       fontWeight: fontWeight ?? FontWeight.bold,
     );
@@ -23,7 +23,7 @@ TextStyle getbodyStyle({
   FontWeight? fontWeight,
 }) =>
     TextStyle(
-      fontSize: fontSize ?? 14,
+      fontSize: fontSize ?? 16,
       color: color ?? AppColors.white,
       fontWeight: fontWeight ?? FontWeight.normal,
     );
