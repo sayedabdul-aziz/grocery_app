@@ -7,12 +7,12 @@ import 'package:grocery_app/inner_screens/product_details.dart';
 import 'package:grocery_app/models/viewed_model.dart';
 import 'package:grocery_app/core/services/global_methods.dart';
 import 'package:provider/provider.dart';
-import '../../../core/consts/firebase_consts.dart';
-import '../../../models/wishlist_model.dart';
-import '../../../providers/cart_provider.dart';
-import '../../../providers/products_provider.dart';
-import '../../../core/services/utils.dart';
-import '../../../core/widgets/text_widget.dart';
+import '../../../../core/consts/firebase_consts.dart';
+import '../../../../models/wishlist_model.dart';
+import '../../../../providers/cart_provider.dart';
+import '../../../../providers/products_provider.dart';
+import '../../../../core/services/utils.dart';
+import '../../../../core/widgets/text_widget.dart';
 
 class ViewedRecentlyWidget extends StatefulWidget {
   const ViewedRecentlyWidget({Key? key}) : super(key: key);

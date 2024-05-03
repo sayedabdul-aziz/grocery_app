@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:gap/gap.dart';
+import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/widgets/heart_btn.dart';
 import 'package:provider/provider.dart';
 
@@ -47,7 +48,6 @@ class _ProductDetailsState extends State<ProductDetails> {
     final productId = ModalRoute.of(context)!.settings.arguments as String;
     final productProvider = Provider.of<ProductsProvider>(context);
     final getCurrProduct = productProvider.findProdById(productId);
-
     double usedPrice = getCurrProduct.isOnSale
         ? getCurrProduct.salePrice
         : getCurrProduct.price;
@@ -65,18 +65,19 @@ class _ProductDetailsState extends State<ProductDetails> {
       },
       child: Scaffold(
         appBar: AppBar(
-            leading: InkWell(
-              borderRadius: BorderRadius.circular(12),
-              onTap: () =>
-                  Navigator.canPop(context) ? Navigator.pop(context) : null,
-              child: Icon(
-                IconlyLight.arrowLeft2,
-                color: color,
-                size: 24,
-              ),
+          leading: InkWell(
+            borderRadius: BorderRadius.circular(12),
+            onTap: () =>
+                Navigator.canPop(context) ? Navigator.pop(context) : null,
+            child: Icon(
+              IconlyLight.arrowLeft2,
+              color: color,
+              size: 24,
             ),
-            elevation: 0,
-            backgroundColor: Theme.of(context).scaffoldBackgroundColor),
+          ),
+          elevation: 0,
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        ),
         body: Column(children: [
           Flexible(
             flex: 2,
@@ -154,58 +155,48 @@ class _ProductDetailsState extends State<ProductDetails> {
                                 decoration: TextDecoration.lineThrough),
                           ),
                         ),
-                        const Spacer(),
+                        const Gap(50),
                         if (!getCurrProduct.isOnSale) ...{
-                          Flexible(
-                            child: Material(
-                              color: isRequested ? Colors.green : Colors.amber,
+                          Expanded(
+                              child: Material(
+                            color: isRequested ? Colors.green : Colors.amber,
+                            borderRadius: BorderRadius.circular(10),
+                            child: InkWell(
+                              onTap: isRequested
+                                  ? null
+                                  : () async {
+                                      setState(() {
+                                        isRequested = true;
+                                      });
+                                      await FirebaseFirestore.instance
+                                          .collection('offers')
+                                          .doc()
+                                          .set({
+                                        'id': getCurrProduct.id,
+                                        'imageUrl': getCurrProduct.imageUrl,
+                                        'price': getCurrProduct.price,
+                                        'productName': getCurrProduct.title,
+                                        'userName': authInstance
+                                            .currentUser?.displayName,
+                                        'userId': authInstance.currentUser!.uid,
+                                        'status': '0',
+                                        'date': DateTime.now(),
+                                      });
+                                    },
                               borderRadius: BorderRadius.circular(10),
-                              child: InkWell(
-                                onTap: isRequested
-                                    ? null
-                                    : () async {
-                                        setState(() {
-                                          isRequested = true;
-                                        });
-                                        await FirebaseFirestore.instance
-                                            .collection('offers')
-                                            .doc()
-                                            .set({
-                                          'id': getCurrProduct.id,
-                                          'imageUrl': getCurrProduct.imageUrl,
-                                          'price': getCurrProduct.price,
-                                          'productName': getCurrProduct.title,
-                                          'userName': authInstance
-                                              .currentUser?.displayName,
-                                          'date': DateTime.now(),
-                                        });
-                                      },
-                                borderRadius: BorderRadius.circular(10),
-                                child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: TextWidget(
-                                        text: isRequested
-                                            ? 'Requested'
-                                            : 'Request offer',
-                                        color: Colors.white,
-                                        textSize: 18)),
+                              child: Padding(
+                                padding: const EdgeInsets.all(12.0),
+                                child: Text(
+                                  isRequested ? 'Requested' : 'Request offer',
+                                  textAlign: TextAlign.center,
+                                  style: getbodyStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
+                          ))
                         },
-                        // Container(
-                        //   padding: const EdgeInsets.symmetric(
-                        //       vertical: 4, horizontal: 8),
-                        //   decoration: BoxDecoration(
-                        //       color: const Color.fromRGBO(63, 200, 101, 1),
-                        //       borderRadius: BorderRadius.circular(5)),
-                        //   child: const TextWidget(
-                        //     text: 'Free delivery',
-                        //     color: Colors.white,
-                        //     textSize: 20,
-                        //     isTitle: true,
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -276,7 +267,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.symmetric(
-                        vertical: 20, horizontal: 30),
+                        vertical: 20, horizontal: 20),
                     decoration: BoxDecoration(
                       color: Theme.of(context).colorScheme.secondary,
                       borderRadius: const BorderRadius.only(
@@ -285,6 +276,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ),
                     child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Flexible(
                           child: Column(
@@ -321,11 +313,8 @@ class _ProductDetailsState extends State<ProductDetails> {
                             ],
                           ),
                         ),
-                        const SizedBox(
-                          width: 8,
-                        ),
                         const Spacer(),
-                        Flexible(
+                        Expanded(
                           child: Material(
                             color: Colors.green,
                             borderRadius: BorderRadius.circular(10),
@@ -360,11 +349,13 @@ class _ProductDetailsState extends State<ProductDetails> {
                               borderRadius: BorderRadius.circular(10),
                               child: Padding(
                                   padding: const EdgeInsets.all(12.0),
-                                  child: TextWidget(
-                                      text:
-                                          isInCart ? 'In cart' : 'Add to cart',
+                                  child: Text(
+                                    isInCart ? 'In cart' : 'Add to cart',
+                                    textAlign: TextAlign.center,
+                                    style: getbodyStyle(
                                       color: Colors.white,
-                                      textSize: 16)),
+                                    ),
+                                  )),
                             ),
                           ),
                         ),

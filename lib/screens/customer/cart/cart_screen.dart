@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -118,18 +120,18 @@ class CartScreen extends StatelessWidget {
                     Provider.of<ProductsProvider>(ctx, listen: false);
 
                 cartProvider.getCartItems.forEach((key, value) async {
+                  log('');
                   final getCurrProduct = productProvider.findProdById(
                     value.productId,
                   );
                   try {
                     await FirebaseFirestore.instance
                         .collection('orders')
-                        .doc(orderId)
+                        .doc()
                         .set({
                       'orderId': orderId,
                       'productName': getCurrProduct.title,
                       'userId': user!.uid,
-                      'status': '0',
                       'productId': value.productId,
                       'price': (getCurrProduct.isOnSale
                               ? getCurrProduct.salePrice
@@ -149,14 +151,22 @@ class CartScreen extends StatelessWidget {
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.CENTER,
                     );
+
+                    // update product orderCount
+                    FirebaseFirestore.instance
+                        .collection('products')
+                        .doc(getCurrProduct.title)
+                        .update({
+                      'orderCount': FieldValue.increment(1),
+                    });
                   } catch (error) {
                     GlobalMethods.errorDialog(
                         subtitle: error.toString(), context: ctx);
                   } finally {}
                 });
               },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
+              child: const Padding(
+                padding: EdgeInsets.all(8.0),
                 child: TextWidget(
                   text: 'Order Now',
                   textSize: 20,

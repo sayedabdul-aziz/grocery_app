@@ -15,14 +15,15 @@ import '../services/global_methods.dart';
 import '../services/utils.dart';
 import 'heart_btn.dart';
 
-class FeedsWidget extends StatefulWidget {
-  const FeedsWidget({super.key});
+class TopProductItem extends StatefulWidget {
+  const TopProductItem({super.key, required this.productModel});
+  final ProductsModel productModel;
 
   @override
-  State<FeedsWidget> createState() => _FeedsWidgetState();
+  State<TopProductItem> createState() => _TopProductItemState();
 }
 
-class _FeedsWidgetState extends State<FeedsWidget> {
+class _TopProductItemState extends State<TopProductItem> {
   final _quantityTextController = TextEditingController();
   @override
   void initState() {
@@ -39,12 +40,12 @@ class _FeedsWidgetState extends State<FeedsWidget> {
   @override
   Widget build(BuildContext context) {
     final Color color = Utils(context).color;
-    final productModel = Provider.of<ProductModel>(context);
     final cartProvider = Provider.of<CartProvider>(context);
-    bool? isInCart = cartProvider.getCartItems.containsKey(productModel.id);
+    bool? isInCart =
+        cartProvider.getCartItems.containsKey(widget.productModel.id);
     final wishlistProvider = Provider.of<WishlistProvider>(context);
     bool? isInWishlist =
-        wishlistProvider.getWishlistItems.containsKey(productModel.id);
+        wishlistProvider.getWishlistItems.containsKey(widget.productModel.id);
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Material(
@@ -53,12 +54,12 @@ class _FeedsWidgetState extends State<FeedsWidget> {
         child: InkWell(
           onTap: () {
             Navigator.pushNamed(context, ProductDetails.routeName,
-                arguments: productModel.id);
+                arguments: widget.productModel.id);
           },
           borderRadius: BorderRadius.circular(12),
           child: Column(children: [
             FancyShimmerImage(
-              imageUrl: productModel.imageUrl,
+              imageUrl: widget.productModel.imageUrl,
               height: 100,
               width: 100,
               boxFit: BoxFit.fill,
@@ -71,7 +72,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                   Flexible(
                     flex: 3,
                     child: TextWidget(
-                      text: productModel.title,
+                      text: widget.productModel.title,
                       color: color,
                       maxLines: 1,
                       textSize: 18,
@@ -81,7 +82,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                   Flexible(
                       flex: 1,
                       child: HeartBTN(
-                        productId: productModel.id,
+                        productId: widget.productModel.id,
                         isInWishlist: isInWishlist,
                       )),
                 ],
@@ -95,10 +96,10 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                   Flexible(
                     flex: 3,
                     child: PriceWidget(
-                      salePrice: productModel.salePrice,
-                      price: productModel.price,
+                      salePrice: widget.productModel.salePrice,
+                      price: widget.productModel.price,
                       textPrice: _quantityTextController.text,
-                      isOnSale: productModel.isOnSale,
+                      isOnSale: widget.productModel.isOnSale,
                     ),
                   ),
                   Flexible(
@@ -108,7 +109,8 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                           flex: 6,
                           child: FittedBox(
                             child: TextWidget(
-                              text: productModel.isPiece ? 'Piece' : 'kg',
+                              text:
+                                  widget.productModel.isPiece ? 'Piece' : 'kg',
                               color: color,
                               textSize: 18,
                               isTitle: true,
@@ -143,10 +145,13 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                           return;
                         }
                         await GlobalMethods.addToCart(
-                            productId: productModel.id,
+                            productId: widget.productModel.id,
                             quantity: int.parse(_quantityTextController.text),
                             context: context);
                         await cartProvider.fetchCart();
+                        // cartProvider.addProductsToCart(
+                        //     productId: widget.productModel.id,
+                        //     quantity: int.parse(_quantityTextController.text));
                       },
                 style: ButtonStyle(
                     backgroundColor: MaterialStateProperty.all(

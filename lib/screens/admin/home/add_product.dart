@@ -35,6 +35,7 @@ class _AddProductViewScreenState extends State<AddProductView> {
 
   @override
   void initState() {
+    coverUrl = widget.model?.imageUrl;
     _nameController = TextEditingController(text: widget.model?.title);
     _price = TextEditingController(text: widget.model?.price.toString());
     salePrice = TextEditingController(text: widget.model?.salePrice.toString());
@@ -99,6 +100,9 @@ class _AddProductViewScreenState extends State<AddProductView> {
                       ProductsModel(
                               id: _nameController.text,
                               title: _nameController.text,
+                              orderCount: widget.model == null
+                                  ? 0
+                                  : widget.model!.orderCount,
                               imageUrl: coverUrl.toString(),
                               productCategoryName: category,
                               price: double.parse(_price.text),
@@ -107,6 +111,21 @@ class _AddProductViewScreenState extends State<AddProductView> {
                               isPiece: isPiece)
                           .toJson(),
                       SetOptions(merge: true));
+              if (widget.model != null && isSale) {
+                FirebaseFirestore.instance
+                    .collection("offers")
+                    .where('productName', isEqualTo: widget.model?.title)
+                    .get()
+                    .then((value) {
+                  if (value.docs.isNotEmpty) {
+                    // update status to 1
+                    FirebaseFirestore.instance
+                        .collection("offers")
+                        .doc(value.docs.first.id)
+                        .update({'status': '1'});
+                  }
+                });
+              }
               Navigator.of(context).pop();
             }
           },
@@ -127,7 +146,7 @@ class _AddProductViewScreenState extends State<AddProductView> {
                 child: Container(
                   height: 100,
                   width: 100,
-                  decoration: _imagePath == null
+                  decoration: coverUrl == null
                       ? BoxDecoration(
                           border: Border.all(color: AppColors.shadeColor),
                           borderRadius: BorderRadius.circular(10),
@@ -137,7 +156,7 @@ class _AddProductViewScreenState extends State<AddProductView> {
                           borderRadius: BorderRadius.circular(10),
                           image: DecorationImage(
                               fit: BoxFit.cover,
-                              image: FileImage(File(_imagePath!)))),
+                              image: NetworkImage(coverUrl!))),
                   child: Icon(
                     Icons.add,
                     color: AppColors.white,

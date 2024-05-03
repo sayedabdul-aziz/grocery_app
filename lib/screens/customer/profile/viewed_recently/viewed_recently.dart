@@ -5,9 +5,9 @@ import 'package:grocery_app/core/widgets/back_widget.dart';
 import 'package:grocery_app/core/widgets/empty_screen.dart';
 import 'package:provider/provider.dart';
 
-import '../../../core/services/global_methods.dart';
-import '../../../core/services/utils.dart';
-import '../../../core/widgets/text_widget.dart';
+import '../../../../core/services/global_methods.dart';
+import '../../../../core/services/utils.dart';
+import '../../../../core/widgets/text_widget.dart';
 import 'viewed_widget.dart';
 
 class ViewedRecentlyScreen extends StatefulWidget {

@@ -1,19 +1,25 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_iconly/flutter_iconly.dart';
+import 'package:gap/gap.dart';
+import 'package:grocery_app/core/consts/navigation.dart';
 import 'package:grocery_app/core/services/utils.dart';
+import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
+import 'package:grocery_app/core/widgets/top_product_item.dart';
 import 'package:grocery_app/inner_screens/feeds_screen.dart';
 import 'package:grocery_app/inner_screens/on_sale_screen.dart';
+import 'package:grocery_app/screens/customer/notification/notification_view.dart';
 import 'package:provider/provider.dart';
 
-import '../../core/consts/contss.dart';
-import '../../core/services/global_methods.dart';
-import '../../core/widgets/feed_items.dart';
-import '../../core/widgets/on_sale_widget.dart';
-import '../../models/products_model.dart';
-import '../../providers/products_provider.dart';
+import '../../../core/consts/contss.dart';
+import '../../../core/services/global_methods.dart';
+import '../../../core/widgets/on_sale_widget.dart';
+import '../../../models/products_model.dart';
+import '../../../providers/products_provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,8 +44,33 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               SizedBox(
-                height: size.height * 0.04,
+                height: size.height * 0.02,
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  children: [
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                            'Hi, ${FirebaseAuth.instance.currentUser?.displayName} 👋',
+                            style: getHeadlineStyle(fontSize: 22)),
+                        Text('Order Your Product Now!',
+                            style: getsmallStyle(fontSize: 14)),
+                      ],
+                    ),
+                    const Spacer(),
+                    IconButton.outlined(
+                        onPressed: () {
+                          navigateTo(context, const CustomerNotificationView());
+                        },
+                        color: AppColors.accentColor,
+                        icon: const Icon(Icons.notifications_active)),
+                  ],
+                ),
+              ),
+              const Gap(15),
               SizedBox(
                 height: size.height * 0.25,
                 width: size.width * .9,
@@ -131,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     TextWidget(
-                      text: 'Our products',
+                      text: 'Top Products',
                       color: color,
                       textSize: 22,
                       isTitle: true,
@@ -152,23 +183,34 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              GridView.count(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                padding: EdgeInsets.zero,
-                // crossAxisSpacing: 10,
-                childAspectRatio: size.width / (size.height * 0.61),
-                children: List.generate(
-                    allProducts.length < 4
-                        ? allProducts.length // length 3
-                        : 4, (index) {
-                  return ChangeNotifierProvider.value(
-                    value: allProducts[index],
-                    child: const FeedsWidget(),
-                  );
-                }),
-              ),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection('products')
+                      .orderBy('orderCount', descending: true)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (!snapshot.hasData) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    var products = snapshot.data?.docs;
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 60),
+                      child: GridView.builder(
+                          itemCount: products!.length < 8 ? products.length : 8,
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisExtent: 240,
+                          ),
+                          itemBuilder: (context, index) => TopProductItem(
+                                productModel: ProductsModel.fromJson(
+                                    products[index].data()),
+                              )),
+                    );
+                  }),
             ],
           ),
         ),

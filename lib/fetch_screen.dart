@@ -8,7 +8,7 @@ import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:grocery_app/providers/wishlist_provider.dart';
 import 'package:grocery_app/screens/admin/home/nav_bar.dart';
 import 'package:grocery_app/screens/auth/login.dart';
-import 'package:grocery_app/screens/customer/btm_bar.dart';
+import 'package:grocery_app/screens/customer/home/btm_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'providers/products_provider.dart';

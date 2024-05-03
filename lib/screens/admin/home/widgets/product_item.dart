@@ -62,7 +62,7 @@ class Productitem extends StatelessWidget {
                     (productModel.isOnSale)
                         ? Expanded(
                             child: TextWidget(
-                              text: '${productModel.price}\$',
+                              text: '${productModel.salePrice}\$',
                               color: AppColors.primary,
                               maxLines: 1,
                               textSize: 16,
@@ -71,7 +71,7 @@ class Productitem extends StatelessWidget {
                           )
                         : Expanded(
                             child: TextWidget(
-                              text: '${productModel.salePrice}\$',
+                              text: '${productModel.price}\$',
                               color: AppColors.primary,
                               maxLines: 1,
                               textSize: 16,

@@ -58,9 +58,15 @@ class OrderItem extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          productName,
-                          style: getbodyStyle(),
+                        Expanded(
+                          child: Text(
+                            productName,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: getTitleStyle(
+                              color: AppColors.primary,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -101,14 +107,16 @@ class OrderItem extends StatelessWidget {
             ],
           ),
           const Gap(5),
+          const Divider(),
+          const Gap(5),
           Row(
             children: [
               Expanded(
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.person,
-                      color: Colors.white,
+                      color: AppColors.primary,
                     ),
                     const SizedBox(width: 5),
                     Text(name, style: getbodyStyle()),
@@ -118,9 +126,9 @@ class OrderItem extends StatelessWidget {
               Expanded(
                 child: Row(
                   children: [
-                    const Icon(
+                    Icon(
                       Icons.date_range_rounded,
-                      color: Colors.white,
+                      color: AppColors.primary,
                     ),
                     const SizedBox(width: 5),
                     Text(date, style: getbodyStyle()),

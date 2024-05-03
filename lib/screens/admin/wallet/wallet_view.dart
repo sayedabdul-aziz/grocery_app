@@ -24,7 +24,7 @@ class AdminWalletViewState extends State<AdminWalletView> {
         child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('orders')
-                // .orderBy('orderDate', descending: true)
+                .orderBy('orderDate', descending: true)
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -66,11 +66,14 @@ class AdminWalletViewState extends State<AdminWalletView> {
                         children: [
                           OrderItem(
                             imageUrl: item['imageUrl'],
-                            price: item['price'],
+                            price: item['price'].toStringAsFixed(2),
                             productName: item['productName'],
                             name: item['userName'],
-                            quntity: item['quantity'].toString(),
-                            date: item['orderDate'].toString(),
+                            quntity: (item['quantity']).toString(),
+                            date: ((item['orderDate'] as Timestamp).toDate())
+                                .toIso8601String()
+                                .split('T')
+                                .first,
                           ),
                         ],
                       );

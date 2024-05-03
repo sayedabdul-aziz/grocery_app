@@ -8,7 +8,7 @@ import 'package:grocery_app/inner_screens/on_sale_screen.dart';
 import 'package:grocery_app/providers/orders_provider.dart';
 import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/providers/viewed_prod_provider.dart';
-import 'package:grocery_app/screens/customer/viewed_recently/viewed_recently.dart';
+import 'package:grocery_app/screens/customer/profile/viewed_recently/viewed_recently.dart';
 import 'package:provider/provider.dart';
 
 import 'inner_screens/cat_screen.dart';

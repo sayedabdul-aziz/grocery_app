@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/screens/customer/cart/cart_screen.dart';
-import 'package:grocery_app/screens/customer/home_screen.dart';
+import 'package:grocery_app/screens/customer/home/home_screen.dart';
 import 'package:grocery_app/screens/customer/wishlist/wishlist_screen.dart';
-import 'package:grocery_app/screens/user.dart';
+import 'package:grocery_app/screens/customer/profile/user.dart';
 
 class CustomerNavBarView extends StatefulWidget {
   const CustomerNavBarView({super.key});

@@ -135,7 +135,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(
                     height: 40.0,
                   ),
-                  TextWidget(
+                  const TextWidget(
                     text: 'Welcome',
                     color: Colors.white,
                     textSize: 30,
@@ -144,7 +144,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   const SizedBox(
                     height: 8,
                   ),
-                  TextWidget(
+                  const TextWidget(
                     text: "Sign up to continue",
                     color: Colors.white,
                     textSize: 18,

@@ -20,6 +20,7 @@ class AdminHomeView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 15),
           child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -82,23 +83,26 @@ class AdminHomeView extends StatelessWidget {
                       if (!snapshot.hasData) {
                         return const Center(child: CircularProgressIndicator());
                       }
-                      return GridView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10,
-                          mainAxisExtent: 250,
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 60),
+                        child: GridView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 10,
+                            crossAxisSpacing: 10,
+                            mainAxisExtent: 250,
+                          ),
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (context, index) {
+                            return Productitem(
+                              productModel: ProductsModel.fromJson(
+                                  snapshot.data!.docs[index].data()),
+                            );
+                          },
                         ),
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          return Productitem(
-                            productModel: ProductsModel.fromJson(
-                                snapshot.data!.docs[index].data()),
-                          );
-                        },
                       );
                     }),
               ],

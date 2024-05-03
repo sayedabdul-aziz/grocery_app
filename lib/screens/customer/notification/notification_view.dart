@@ -1,23 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:grocery_app/core/consts/navigation.dart';
 import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/utils/colors.dart';
-import 'package:grocery_app/models/products_model.dart';
+import 'package:grocery_app/inner_screens/product_details.dart';
 import 'package:grocery_app/providers/products_provider.dart';
-import 'package:grocery_app/screens/admin/home/add_product.dart';
 import 'package:grocery_app/screens/admin/home/widgets/order_item.dart';
 import 'package:provider/provider.dart';
 
-class AdminNotificationView extends StatefulWidget {
-  const AdminNotificationView({super.key});
+class CustomerNotificationView extends StatefulWidget {
+  const CustomerNotificationView({super.key});
 
   @override
-  State<AdminNotificationView> createState() => AdminNotificationViewState();
+  State<CustomerNotificationView> createState() =>
+      CustomerNotificationViewState();
 }
 
-class AdminNotificationViewState extends State<AdminNotificationView> {
+class CustomerNotificationViewState extends State<CustomerNotificationView> {
   @override
   Widget build(BuildContext context) {
     final productProvider = Provider.of<ProductsProvider>(context);
@@ -30,8 +30,9 @@ class AdminNotificationViewState extends State<AdminNotificationView> {
         child: StreamBuilder(
             stream: FirebaseFirestore.instance
                 .collection('offers')
-                .orderBy('date', descending: true)
-                .where('status', isEqualTo: '0')
+                .where('userId',
+                    isEqualTo: FirebaseAuth.instance.currentUser?.uid)
+                .where('status', isEqualTo: '1')
                 .snapshots(),
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
@@ -71,23 +72,8 @@ class AdminNotificationViewState extends State<AdminNotificationView> {
 
                       return InkWell(
                         onTap: () {
-                          final getCurrProduct =
-                              productProvider.findProdById(item['id']);
-                          navigateTo(
-                              context,
-                              AddProductView(
-                                model: ProductsModel(
-                                    id: getCurrProduct.id,
-                                    orderCount: getCurrProduct.orderCount,
-                                    title: getCurrProduct.title,
-                                    imageUrl: getCurrProduct.imageUrl,
-                                    productCategoryName:
-                                        getCurrProduct.productCategoryName,
-                                    price: getCurrProduct.price,
-                                    salePrice: getCurrProduct.salePrice,
-                                    isOnSale: getCurrProduct.isOnSale,
-                                    isPiece: getCurrProduct.isPiece),
-                              ));
+                          Navigator.pushNamed(context, ProductDetails.routeName,
+                              arguments: item['id']);
                         },
                         child: OrderItem(
                           imageUrl: item['imageUrl'],

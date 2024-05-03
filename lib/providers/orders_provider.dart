@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:grocery_app/models/orders_model.dart';
 
@@ -11,6 +12,7 @@ class OrdersProvider with ChangeNotifier {
   Future<void> fetchOrders() async {
     await FirebaseFirestore.instance
         .collection('orders')
+        .where('userId', isEqualTo: FirebaseAuth.instance.currentUser?.uid)
         .get()
         .then((QuerySnapshot ordersSnapshot) {
       _orders = [];

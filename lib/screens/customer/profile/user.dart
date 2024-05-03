@@ -10,11 +10,11 @@ import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
 import 'package:grocery_app/screens/auth/forget_pass.dart';
 import 'package:grocery_app/screens/customer/orders/orders_screen.dart';
-import 'package:grocery_app/screens/customer/viewed_recently/viewed_recently.dart';
+import 'package:grocery_app/screens/customer/profile/viewed_recently/viewed_recently.dart';
 import 'package:grocery_app/screens/customer/wishlist/wishlist_screen.dart';
 import 'package:grocery_app/screens/loading_manager.dart';
 
-import 'auth/login.dart';
+import '../../auth/login.dart';
 
 class UserScreen extends StatefulWidget {
   const UserScreen({super.key});

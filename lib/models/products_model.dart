@@ -3,11 +3,13 @@ import 'package:flutter/cupertino.dart';
 class ProductModel with ChangeNotifier {
   final String id, title, imageUrl, productCategoryName;
   final double price, salePrice;
+  final int orderCount;
   final bool isOnSale, isPiece;
 
   ProductModel(
       {required this.id,
       required this.title,
+      required this.orderCount,
       required this.imageUrl,
       required this.productCategoryName,
       required this.price,
@@ -19,6 +21,7 @@ class ProductModel with ChangeNotifier {
 class ProductsModel {
   final String id, title, imageUrl, productCategoryName;
   final double price, salePrice;
+  final int orderCount;
   final bool isOnSale, isPiece;
 
   ProductsModel(
@@ -27,6 +30,7 @@ class ProductsModel {
       required this.imageUrl,
       required this.productCategoryName,
       required this.price,
+      required this.orderCount,
       required this.salePrice,
       required this.isOnSale,
       required this.isPiece});
@@ -35,6 +39,7 @@ class ProductsModel {
     return ProductsModel(
       id: json['id'],
       title: json['title'],
+      orderCount: json['orderCount'],
       imageUrl: json['imageUrl'],
       productCategoryName: json['productCategoryName'],
       price: json['price'],
@@ -49,6 +54,7 @@ class ProductsModel {
       'id': id,
       'title': title,
       'imageUrl': imageUrl,
+      'orderCount': orderCount,
       'productCategoryName': productCategoryName,
       'price': price,
       'salePrice': salePrice,

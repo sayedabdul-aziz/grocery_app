@@ -26,6 +26,7 @@ class ProductsProvider with ChangeNotifier {
             ProductModel(
               id: element.get('id'),
               title: element.get('title'),
+              orderCount: element.get('orderCount'),
               imageUrl: element.get('imageUrl'),
               productCategoryName: element.get('productCategoryName'),
               price: element.get('price'),
