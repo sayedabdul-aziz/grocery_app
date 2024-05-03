@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,7 @@ class _ProductDetailsState extends State<ProductDetails> {
     super.dispose();
   }
 
+  bool isRequested = false;
   @override
   Widget build(BuildContext context) {
     Size size = Utils(context).getScreenSize;
@@ -153,19 +155,57 @@ class _ProductDetailsState extends State<ProductDetails> {
                           ),
                         ),
                         const Spacer(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 4, horizontal: 8),
-                          decoration: BoxDecoration(
-                              color: const Color.fromRGBO(63, 200, 101, 1),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: TextWidget(
-                            text: 'Free delivery',
-                            color: Colors.white,
-                            textSize: 20,
-                            isTitle: true,
+                        if (!getCurrProduct.isOnSale) ...{
+                          Flexible(
+                            child: Material(
+                              color: isRequested ? Colors.green : Colors.amber,
+                              borderRadius: BorderRadius.circular(10),
+                              child: InkWell(
+                                onTap: isRequested
+                                    ? null
+                                    : () async {
+                                        setState(() {
+                                          isRequested = true;
+                                        });
+                                        await FirebaseFirestore.instance
+                                            .collection('offers')
+                                            .doc()
+                                            .set({
+                                          'id': getCurrProduct.id,
+                                          'imageUrl': getCurrProduct.imageUrl,
+                                          'price': getCurrProduct.price,
+                                          'productName': getCurrProduct.title,
+                                          'userName': authInstance
+                                              .currentUser?.displayName,
+                                          'date': DateTime.now(),
+                                        });
+                                      },
+                                borderRadius: BorderRadius.circular(10),
+                                child: Padding(
+                                    padding: const EdgeInsets.all(12.0),
+                                    child: TextWidget(
+                                        text: isRequested
+                                            ? 'Requested'
+                                            : 'Request offer',
+                                        color: Colors.white,
+                                        textSize: 18)),
+                              ),
+                            ),
                           ),
-                        ),
+                        },
+                        // Container(
+                        //   padding: const EdgeInsets.symmetric(
+                        //       vertical: 4, horizontal: 8),
+                        //   decoration: BoxDecoration(
+                        //       color: const Color.fromRGBO(63, 200, 101, 1),
+                        //       borderRadius: BorderRadius.circular(5)),
+                        //   child: const TextWidget(
+                        //     text: 'Free delivery',
+                        //     color: Colors.white,
+                        //     textSize: 20,
+                        //     isTitle: true,
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -245,7 +285,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                       ),
                     ),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Flexible(
                           child: Column(
@@ -285,6 +324,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                         const SizedBox(
                           width: 8,
                         ),
+                        const Spacer(),
                         Flexible(
                           child: Material(
                             color: Colors.green,

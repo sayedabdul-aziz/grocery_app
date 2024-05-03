@@ -16,7 +16,6 @@ class EmptyScreen extends StatelessWidget {
   final String imagePath, title, subtitle, buttonText;
   @override
   Widget build(BuildContext context) {
-    final Color color = Utils(context).color;
     Size size = Utils(context).getScreenSize;
     return Scaffold(
       body: SingleChildScrollView(

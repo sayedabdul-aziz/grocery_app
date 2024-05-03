@@ -6,7 +6,7 @@ import 'package:grocery_app/core/utils/colors.dart';
 class OrderItem extends StatelessWidget {
   final String imageUrl;
   final String name;
-  final String quntity;
+  final String? quntity;
   final String date;
   final String price;
   final String productName;
@@ -16,7 +16,7 @@ class OrderItem extends StatelessWidget {
       required this.imageUrl,
       required this.productName,
       required this.name,
-      required this.quntity,
+      this.quntity,
       required this.date,
       required this.price});
 
@@ -58,39 +58,38 @@ class OrderItem extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        const Icon(
-                          Icons.person,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(width: 5),
-                        Text(name, style: getbodyStyle()),
-                      ],
-                    ),
-                    const Gap(5),
-                    const Gap(10),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.production_quantity_limits_rounded,
-                          color: Colors.white,
-                        ),
-                        const SizedBox(width: 5),
                         Text(
-                          quntity,
+                          productName,
                           style: getbodyStyle(),
                         ),
                       ],
                     ),
                     const Gap(10),
+                    if (quntity != null) ...{
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.production_quantity_limits_rounded,
+                            color: Colors.white,
+                          ),
+                          const SizedBox(width: 5),
+                          Text(
+                            quntity ?? '',
+                            style: getbodyStyle(),
+                          ),
+                        ],
+                      ),
+                      const Gap(10),
+                    },
                     Row(
                       children: [
                         const Icon(
-                          Icons.location_city_rounded,
+                          Icons.attach_money_rounded,
                           color: Colors.white,
                         ),
                         const SizedBox(width: 5),
                         Text(
-                          'Nasr City, Cairo',
+                          price,
                           style: getbodyStyle(),
                         ),
                       ],
@@ -98,17 +97,36 @@ class OrderItem extends StatelessWidget {
                   ],
                 ),
               ),
-              const Gap(10),
+              const Gap(5),
             ],
           ),
+          const Gap(5),
           Row(
             children: [
-              const Icon(
-                Icons.date_range_rounded,
-                color: Colors.white,
+              Expanded(
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.person,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(name, style: getbodyStyle()),
+                  ],
+                ),
               ),
-              const SizedBox(width: 5),
-              Text(date, style: getbodyStyle()),
+              Expanded(
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.date_range_rounded,
+                      color: Colors.white,
+                    ),
+                    const SizedBox(width: 5),
+                    Text(date, style: getbodyStyle()),
+                  ],
+                ),
+              ),
             ],
           ),
         ],

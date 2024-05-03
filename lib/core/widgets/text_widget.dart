@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 
 class TextWidget extends StatelessWidget {
-  TextWidget({
+  const TextWidget({
     super.key,
     required this.text,
     required this.color,
@@ -13,8 +13,8 @@ class TextWidget extends StatelessWidget {
   final String text;
   final Color? color;
   final double textSize;
-  bool isTitle;
-  int maxLines = 10;
+  final bool isTitle;
+  final int maxLines;
   @override
   Widget build(BuildContext context) {
     return Text(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/screens/admin/home/home_view.dart';
+import 'package:grocery_app/screens/admin/notification/notification_view.dart';
 import 'package:grocery_app/screens/admin/wallet/wallet_view.dart';
 
 class AdminNavBarView extends StatefulWidget {
@@ -15,6 +16,7 @@ class _AdminNavBarViewState extends State<AdminNavBarView> {
   final List _page = [
     const AdminHomeView(),
     const AdminWalletView(),
+    const AdminNotificationView(),
   ];
 
   @override
@@ -65,6 +67,20 @@ class _AdminNavBarViewState extends State<AdminNavBarView> {
                     },
                     icon: const Icon(Icons.wallet),
                     color: _selectedIndex == 1
+                        ? AppColors.primary
+                        : AppColors.white,
+                  ),
+                  IconButton(
+                    splashColor: Colors.transparent,
+                    highlightColor: Colors.transparent,
+                    enableFeedback: false,
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 2;
+                      });
+                    },
+                    icon: const Icon(Icons.notifications_rounded),
+                    color: _selectedIndex == 2
                         ? AppColors.primary
                         : AppColors.white,
                   ),
