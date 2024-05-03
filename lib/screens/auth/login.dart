@@ -104,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 120.0,
                   ),
-                  TextWidget(
+                  const TextWidget(
                     text: 'Welcome Back',
                     color: Colors.white,
                     textSize: 30,
@@ -113,7 +113,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 8,
                   ),
-                  TextWidget(
+                  const TextWidget(
                     text: "Sign in to continue",
                     color: Colors.white,
                     textSize: 18,
@@ -214,15 +214,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  Row(
+                  const Row(
                     children: [
-                      const Expanded(
+                      Expanded(
                         child: Divider(
                           color: Colors.white,
                           thickness: 2,
                         ),
                       ),
-                      const SizedBox(
+                      SizedBox(
                         width: 5,
                       ),
                       TextWidget(
@@ -230,10 +230,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: Colors.white,
                         textSize: 18,
                       ),
-                      const SizedBox(
+                      SizedBox(
                         width: 5,
                       ),
-                      const Expanded(
+                      Expanded(
                         child: Divider(
                           color: Colors.white,
                           thickness: 2,

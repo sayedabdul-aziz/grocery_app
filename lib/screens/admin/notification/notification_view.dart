@@ -26,7 +26,7 @@ class AdminNotificationViewState extends State<AdminNotificationView> {
           child: StreamBuilder(
               stream: FirebaseFirestore.instance
                   .collection('offers')
-                  .orderBy('date', descending: true)
+                  // .orderBy('date', descending: true)
                   .snapshots(),
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {

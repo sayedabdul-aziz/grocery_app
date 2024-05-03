@@ -293,7 +293,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                               TextWidget(
                                 text: 'Total',
                                 color: Colors.red.shade300,
-                                textSize: 20,
+                                textSize: 18,
                                 isTitle: true,
                               ),
                               const SizedBox(
@@ -306,7 +306,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       text:
                                           '\$${totalPrice.toStringAsFixed(2)}/',
                                       color: color,
-                                      textSize: 20,
+                                      textSize: 18,
                                       isTitle: true,
                                     ),
                                     TextWidget(
@@ -364,7 +364,7 @@ class _ProductDetailsState extends State<ProductDetails> {
                                       text:
                                           isInCart ? 'In cart' : 'Add to cart',
                                       color: Colors.white,
-                                      textSize: 18)),
+                                      textSize: 16)),
                             ),
                           ),
                         ),

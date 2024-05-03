@@ -110,7 +110,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                             child: TextWidget(
                               text: productModel.isPiece ? 'Piece' : 'kg',
                               color: color,
-                              textSize: 20,
+                              textSize: 18,
                               isTitle: true,
                             ),
                           ),
@@ -167,7 +167,7 @@ class _FeedsWidgetState extends State<FeedsWidget> {
                   text: isInCart ? 'In cart' : 'Add to cart',
                   maxLines: 1,
                   color: color,
-                  textSize: 20,
+                  textSize: 18,
                 ),
               ),
             )

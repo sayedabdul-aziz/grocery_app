@@ -72,12 +72,23 @@ class _AddProductViewScreenState extends State<AddProductView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Add Product'),
+        title: Text(widget.model == null ? 'Add Product' : 'Edit Product'),
+        actions: [
+          IconButton(
+              onPressed: () {
+                FirebaseFirestore.instance
+                    .collection('products')
+                    .doc(widget.model?.title)
+                    .delete();
+                Navigator.pop(context);
+              },
+              icon: const Icon(Icons.delete))
+        ],
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(20),
         child: CustomButton(
-          text: 'Add Product',
+          text: widget.model == null ? 'Add Product' : 'Save Changes',
           onTap: () {
             if (formKey.currentState!.validate() && coverUrl != null) {
               formKey.currentState!.save();
@@ -221,12 +232,6 @@ class _AddProductViewScreenState extends State<AddProductView> {
               TextFormField(
                 controller: salePrice,
                 readOnly: !isSale,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return '* Required';
-                  }
-                  return null;
-                },
                 decoration: InputDecoration(
                     hintText: !isSale ? 'Check On Sale Price first' : 'ex: 15'),
                 keyboardType: TextInputType.phone,

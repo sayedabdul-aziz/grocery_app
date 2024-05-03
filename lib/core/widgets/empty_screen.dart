@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/core/services/global_methods.dart';
+import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
 import 'package:grocery_app/inner_screens/feeds_screen.dart';
@@ -51,8 +52,11 @@ class EmptyScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              TextWidget(
-                  text: subtitle, color: AppColors.accentColor, textSize: 20),
+              Text(
+                subtitle,
+                textAlign: TextAlign.center,
+                style: getsmallStyle(fontSize: 20),
+              ),
               SizedBox(
                 height: size.height * 0.1,
               ),
@@ -77,6 +81,9 @@ class EmptyScreen extends StatelessWidget {
                   color: Colors.white,
                   isTitle: true,
                 ),
+              ),
+              SizedBox(
+                height: size.height * 0.1,
               ),
             ]),
       )),
