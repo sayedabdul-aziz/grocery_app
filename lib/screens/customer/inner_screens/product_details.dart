@@ -9,14 +9,14 @@ import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/widgets/heart_btn.dart';
 import 'package:provider/provider.dart';
 
-import '../core/consts/firebase_consts.dart';
-import '../core/services/global_methods.dart';
-import '../core/services/utils.dart';
-import '../core/widgets/text_widget.dart';
-import '../providers/cart_provider.dart';
-import '../providers/products_provider.dart';
-import '../providers/viewed_prod_provider.dart';
-import '../providers/wishlist_provider.dart';
+import '../../../core/consts/firebase_consts.dart';
+import '../../../core/services/global_methods.dart';
+import '../../../core/services/utils.dart';
+import '../../../core/widgets/text_widget.dart';
+import '../../../providers/cart_provider.dart';
+import '../../../providers/products_provider.dart';
+import '../../../providers/viewed_prod_provider.dart';
+import '../../../providers/wishlist_provider.dart';
 
 class ProductDetails extends StatefulWidget {
   static const routeName = '/ProductDetails';

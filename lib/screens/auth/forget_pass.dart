@@ -1,13 +1,12 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_iconly/flutter_iconly.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:grocery_app/core/consts/firebase_consts.dart';
-import 'package:grocery_app/screens/loading_manager.dart';
 import 'package:grocery_app/core/services/global_methods.dart';
 import 'package:grocery_app/core/services/utils.dart';
 import 'package:grocery_app/core/widgets/back_widget.dart';
+import 'package:grocery_app/screens/loading_manager.dart';
 
 import '../../core/consts/contss.dart';
 import '../../core/widgets/auth_button.dart';
@@ -15,7 +14,7 @@ import '../../core/widgets/text_widget.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   static const routeName = '/ForgetPasswordScreen';
-  const ForgetPasswordScreen({Key? key}) : super(key: key);
+  const ForgetPasswordScreen({super.key});
 
   @override
   _ForgetPasswordScreenState createState() => _ForgetPasswordScreenState();
@@ -110,7 +109,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextWidget(
+                  const TextWidget(
                     text: 'Forget password',
                     color: Colors.white,
                     textSize: 30,

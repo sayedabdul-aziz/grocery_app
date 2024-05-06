@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
-import 'package:grocery_app/inner_screens/cat_screen.dart';
+import 'package:grocery_app/screens/customer/inner_screens/cat_screen.dart';
 
 class CategoriesWidget extends StatelessWidget {
   const CategoriesWidget(

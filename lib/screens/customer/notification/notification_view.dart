@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/utils/colors.dart';
-import 'package:grocery_app/inner_screens/product_details.dart';
+import 'package:grocery_app/screens/customer/inner_screens/product_details.dart';
 import 'package:grocery_app/providers/products_provider.dart';
 import 'package:grocery_app/screens/admin/home/widgets/order_item.dart';
 import 'package:provider/provider.dart';

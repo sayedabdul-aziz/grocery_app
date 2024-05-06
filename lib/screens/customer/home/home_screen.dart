@@ -10,8 +10,8 @@ import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
 import 'package:grocery_app/core/widgets/top_product_item.dart';
-import 'package:grocery_app/inner_screens/feeds_screen.dart';
-import 'package:grocery_app/inner_screens/on_sale_screen.dart';
+import 'package:grocery_app/screens/customer/inner_screens/feeds_screen.dart';
+import 'package:grocery_app/screens/customer/inner_screens/on_sale_screen.dart';
 import 'package:grocery_app/screens/customer/notification/notification_view.dart';
 import 'package:provider/provider.dart';
 
@@ -183,6 +183,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+
+              // recomandition products
               StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection('products')

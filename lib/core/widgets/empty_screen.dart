@@ -3,7 +3,7 @@ import 'package:grocery_app/core/services/global_methods.dart';
 import 'package:grocery_app/core/utils/app_text_styles.dart';
 import 'package:grocery_app/core/utils/colors.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
-import 'package:grocery_app/inner_screens/feeds_screen.dart';
+import 'package:grocery_app/screens/customer/inner_screens/feeds_screen.dart';
 
 import '../services/utils.dart';
 

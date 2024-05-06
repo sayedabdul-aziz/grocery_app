@@ -3,11 +3,11 @@ import 'package:grocery_app/core/widgets/on_sale_widget.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../core/services/utils.dart';
-import '../core/widgets/back_widget.dart';
-import '../core/widgets/empty_products_widget.dart';
-import '../models/products_model.dart';
-import '../providers/products_provider.dart';
+import '../../../core/services/utils.dart';
+import '../../../core/widgets/back_widget.dart';
+import '../../../core/widgets/empty_products_widget.dart';
+import '../../../models/products_model.dart';
+import '../../../providers/products_provider.dart';
 
 class OnSaleScreen extends StatelessWidget {
   static const routeName = "/OnSaleScreen";

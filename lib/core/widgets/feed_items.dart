@@ -8,7 +8,7 @@ import 'package:grocery_app/models/products_model.dart';
 import 'package:grocery_app/providers/cart_provider.dart';
 import 'package:provider/provider.dart';
 
-import '../../inner_screens/product_details.dart';
+import '../../screens/customer/inner_screens/product_details.dart';
 import '../../providers/wishlist_provider.dart';
 import '../consts/firebase_consts.dart';
 import '../services/global_methods.dart';

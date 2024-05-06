@@ -4,7 +4,7 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:grocery_app/core/widgets/heart_btn.dart';
 import 'package:grocery_app/core/widgets/text_widget.dart';
-import 'package:grocery_app/inner_screens/product_details.dart';
+import 'package:grocery_app/screens/customer/inner_screens/product_details.dart';
 import 'package:grocery_app/models/cart_model.dart';
 import 'package:grocery_app/providers/products_provider.dart';
 import 'package:provider/provider.dart';
